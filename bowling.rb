@@ -1,7 +1,7 @@
 class Bowling
   def roll(pins)
     # roll the desired number of pins
-    #
+    
   end
 
   def score
