@@ -60,7 +60,17 @@ class Bowling
 
   # roll the desired number of pins
   def roll(pins)
+    raise 'Invalid number of pins' if pins > MAX_PINS || pins < MIN_PINS
 
+    frame = getFrame
+
+    raise 'All attempts exhausted - start new game' if frame == nil
+
+    frame.setScore(pins, frameCounter)
+
+    if isBonusFrame
+        frame.limitToOneAttempt
+    end
   end
 
   # return the current score
