@@ -4,7 +4,7 @@ class Bowling
   end
 
   def score
-    # return the current score
+    0
   end
 
   # Add code as needed
