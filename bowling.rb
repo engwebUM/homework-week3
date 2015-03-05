@@ -1,6 +1,5 @@
 class Bowling
 	attr_accessor :pontos, :jogada, :tentativas, :pins, :strike, :spare, :jogadaExtra
-	attr_accessor :frame1, :frame2, :frame3, :frame4, :frame5, :frame6, :frame7, :frame8, :frame9, :frame10
 
 	def initialize
 		@pontos = 0
@@ -10,7 +9,6 @@ class Bowling
 		@strike = 0
 		@spare = 0
 		@jogadaExtra = false
-		@frame1 = @frame2 = @frame3 = @frame4 = @frame5 = @frame6 = @frame7 = @frame8 = @frame9 = @frame10 = 0
 	end
 
 	def roll(pins)
