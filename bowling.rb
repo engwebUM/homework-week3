@@ -1,11 +1,13 @@
 class Bowling
+  def initialize
+  	@score = 0
+  end
+
   def roll(pins)
-    # roll the desired number of pins
+    @score += pins
   end
 
   def score
-    0
+    @score
   end
-
-  # Add code as needed
 end
