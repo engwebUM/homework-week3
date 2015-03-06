@@ -25,19 +25,12 @@ class Bowling
 
     case
     when pins==10 && (@current_frame_score == nil || @current_frame == 10 && @current_frame_score == 10)
-      if @bonus[0] != nil
-        @bonus[0] += 1
-      end
-      if @bonus[1] != nil
-        @bonus[1] += 1
-      end
+      add_bonus(:strike)
       if @current_frame == 10 && @current_frame_score == nil
         @bonus.push(0)
       end
     when @current_frame_score != nil && @current_frame_score + pins == 10 && @current_frame_score != 10
-      if @bonus[0] != nil
-        @bonus[0] += 1
-      end
+      add_bonus(:spare)
       if @current_frame == 10
         @bonus.push(0)
       end
@@ -59,5 +52,14 @@ class Bowling
   def next_frame
     @current_frame_score = nil
     @current_frame += 1
+  end
+
+  def add_bonus(type)
+    if @bonus[0] != nil
+      @bonus[0] += 1
+    end
+    if type == :strike && @bonus[1] != nil
+      @bonus[1] += 1
+    end
   end
 end
