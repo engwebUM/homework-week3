@@ -9,6 +9,10 @@ RSpec.describe Bowling do
     num.times {bowling.roll(pins)}
   end
 
+  def make_strike()
+    bowling.roll(10)
+  end
+
   context '#score' do
     it "expect score 0 for a worst game" do
       roll_times(21, 0)
@@ -25,6 +29,12 @@ RSpec.describe Bowling do
     it "expect score 300 for excellent game" do
       roll_times(12, 10)
       expect(bowling.score).to eq 300
+    end
+    it "expect score 28 for a strike and then roll 2 and 7 pins" do
+        make_strike # after next two rolls this value is 19, 10 (strike) + 2 (first roll) + 7 (two roll)
+        bowling.roll(2)
+        bowling.roll(7)
+        expect(bowling.score).to eq 28
     end
   end
 end
