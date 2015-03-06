@@ -1,10 +1,31 @@
 require_relative './bowling'
 require 'rspec'
 
+
 RSpec.describe Bowling do
   context '#roll' do
 
-    # ...
+    it 'test number pins is numeric' do
+      bl=Bowling.new
+      expect{bl.roll("EngWeb")}.to raise_error
+    end
+
+    it 'test error raise number pins more than allowed' do
+      bl=Bowling.new
+      expect{bl.roll(11)}.to raise_error (ArgumentError)
+    end
+
+    it 'test error raise number pins less than allowed' do
+      bl=Bowling.new
+      expect{bl.roll(-1)}.to raise_error (ArgumentError)
+    end
+
+    it 'test error raise number pins more than allowed in two launch' do
+      bl=Bowling.new
+      expect{bl.roll(8)
+             bl.roll(8)}.to raise_error (ArgumentError)
+    end
+    
   end
 
   context '#score' do
@@ -80,14 +101,37 @@ RSpec.describe Bowling do
      end
      for i in 1..6
         bl.roll(10)
-       
      end
        bl.roll(4)
       @total=bl.score
       expect(@total).to eq(228)
     end
 
+    it 'test example pins.jpg' do
+      bl=Bowling.new
+      bl.roll(1)
+      bl.roll(4)
+      bl.roll(4)
+      bl.roll(5)
+      bl.roll(6)
+      bl.roll(4)
+      bl.roll(5)
+      bl.roll(5)
+      bl.roll(10)
+      bl.roll(0)
+      bl.roll(1)
+      bl.roll(7)
+      bl.roll(3)
+      bl.roll(6)
+      bl.roll(4)
+      bl.roll(10)
+      bl.roll(2)
+      bl.roll(8)
+      bl.roll(6)
+      @total=bl.score
+      expect(@total).to eq(133)
+    end
 
-    # ...
+
   end
 end
