@@ -1,5 +1,6 @@
 class Bowling
   def initialize 
+
   	@score=Array.new(10) { Hash.new }
     @gamescore=Array.new
     @spare=0
@@ -37,16 +38,15 @@ class Bowling
 
   def score
     # return the current score
+
     @strike=0
     for i in 0..@score.length-1
       if (@score[i][0] != nil && @score[i][0]!=10)
 
-        if(@spare==1)
-          Spare(@score[i][0])
-          @spare=0
-        end
+        callSpare(i)
         @gamescore << @score[i][0]
       elsif @score[i][0]!=nil && @score[i][0]==10
+        callSpare(i)
         @strike=1
         Strike(i)
       end
@@ -69,11 +69,18 @@ class Bowling
           @spare=0
     end
 
-  
+ 
   return @gamescore.inject{|sum,x| sum + x }
   end
 
   private
+
+  def callSpare(i)
+     if(@spare==1)
+      Spare(@score[i][0])
+      @spare=0
+    end
+  end
 
   def positionElement
     @ind= @gamescore.length-1
@@ -104,19 +111,4 @@ class Bowling
   # Add code as needed
 end
 
-bl=Bowling.new
-bl.roll(10)
-bl.roll(10)
-bl.roll(10)
-bl.roll(10)
-bl.roll(10)
 
-bl.roll(10)
-bl.roll(10)
-bl.roll(10)
-bl.roll(4)
-bl.roll(6)
-
-bl.roll(4)
-bl.roll(4)
-puts bl.score

@@ -51,7 +51,7 @@ RSpec.describe Bowling do
       expect(@total).to eq(20)
     end
 
-    it 'test insert value for best game' do
+    it 'test insert value best game' do
       bl=Bowling.new
      for i in 1..21
         bl.roll(10)
@@ -60,6 +60,34 @@ RSpec.describe Bowling do
       @total=bl.score
       expect(@total).to eq(300)
     end
+
+    it 'test insert value always spare ' do
+      bl=Bowling.new
+     for i in 1..10
+        bl.roll(6)
+        bl.roll(4)
+     end
+       bl.roll(4)
+      @total=bl.score
+      expect(@total).to eq(158)
+    end
+
+    it 'test insert value half spare half strike' do
+      bl=Bowling.new
+     for i in 1..5
+        bl.roll(6)
+        bl.roll(4)
+     end
+     for i in 1..6
+        bl.roll(10)
+       
+     end
+       bl.roll(4)
+      @total=bl.score
+      expect(@total).to eq(228)
+    end
+
+
     # ...
   end
 end
