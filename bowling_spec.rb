@@ -13,6 +13,11 @@ RSpec.describe Bowling do
     bowling.roll(10)
   end
 
+  def make_spare()
+    bowling.roll(4)
+    bowling.roll(6)
+  end
+
   context '#score' do
     it "expect score 0 for a worst game" do
       roll_times(21, 0)
@@ -35,6 +40,12 @@ RSpec.describe Bowling do
         bowling.roll(2)
         bowling.roll(7)
         expect(bowling.score).to eq 28
+    end
+    it "expect score 21 for a spare and then roll 2 and 7 pins" do
+        make_spare # after next two rolls this value is 12, 10 (spare) + 2 (first roll)
+        bowling.roll(2)
+        bowling.roll(7)
+        expect(bowling.score).to eq 21
     end
   end
 end
