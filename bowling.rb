@@ -1,154 +1,103 @@
 class Bowling
   def initialize 
-  	@score=Array.new
-  	@game=Array.new(3)
-    @strike=Array.new() 
-  	@value=0
-  	@numberRoll=1
-  	@auxStrike=0
-    @countStrike=0
-    @numberRound=0
-    @numberRoundTot=0
-    @ifcondition=true
-    @aaa=0
-    @valueposition9=0
+  	@score=Array.new(10) { Hash.new }
+    @gamescore=Array.new
+    @spare=0
+
   end
   def roll(pins)
     # roll the desired number of pins
- @numberRoundTot= @numberRoundTot+1
+    for i in 0..@score.length-1
 
- if (@countStrike==11)
+      if i<9
 
-@aaa=1
-  if @valueposition9==0
-    
-  
-    @score[8]=@score[8]+@score[9]+pins
+      if (@score[i][0] == nil)
+        @score[i][0]=pins
 
-    
-  end
-  calculeStrike(pins ,pins)
+        
+        break
+      elsif (@score[i][1] == nil && @score[i][0]!=10)
+        @score[i][1]=pins
+          break
+      end
 
- 
-end
+     elsif @score[i][0] == nil && i==9
 
- if (@countStrike==12)
-
-
-  @score[9]=@score[9]+pins
-@aaa=1
- 
-end
-
-if @countStrike==9 && pins==10
-
-  @valueposition9=1
-end
-
-
-    if ((@numberRoll==1  && ifcondition) && @aaa==0 )
-      
- 
-    	@game[0]=pins
-    	
-    	if @value==10
-    		@ind= positionElement
-    	
-    		@score[@ind]= @score[@ind]+ pins
-    		@value=0
-    	end
-		@numberRoll=2
-
-    if (@auxStrike=1 && @countStrike>1 && @countStrike<11)
-      calculeStrike(10,pins)
-      @auxStrike=0
- 
+          @score[9][0]=pins
+        elsif @score[i][1] == nil && i==9
+              @score[9][1]=pins
+        elsif @score[i][2] == nil && i==9
+              @score[9][2]=pins
+            end
     end
 
-
-      
-    
-        if(pins==10)
-           @numberRound=@numberRound+1
-           if @countStrike>11
-            numberRoll=2
-            @game[0]=0
-             else
-               @numberRoll=1
-           end
-       
-          if(@numberRound<11)
-          @score<< 10
-        
-        
-        
-
-            
-        end
-        if (@countStrike!=11)
-          @ind= positionElement
-          @strike<<@ind
-          @auxStrike=1
-          @countStrike=@countStrike+1
-        end
-        end
-		
-
-    	return @score
-    elsif (@numberRoll==2 )
-    	@game[1]=pins
-    	if (@game[0]+@game[1]==10 )
-    		@value=10
-         @numberRoundTot= @numberRoundTot+1
-    	end
-
-    if @auxStrike==1
-      calculeStrike(@game[0],@game[1])
-      @auxStrike=0
-    end
-
-      insertArray
-    	@numberRoll=1
-
-    	return @score
-	
-    end
-
-
   end
 
-  def ifcondition
-    @rtn=false
-   
-   if (@numberRound<13 && @numberRoundTot<21)
-    @rtn=true
-  
-   end
 
-   return @rtn
-  end
-
-  def calculeStrike(res1,res2)
-      @score[@strike[0]]=@score[@strike[0]]+res1+res2
-      @strike.shift
-
-  end
-
-  def positionElement
-  	@ind= @score.length-1
-  	return @ind
-  end
-
-  def insertArray
-  	@score << (@game[0]+@game[1])
-  end
 
   def score
     # return the current score
+    @strike=0
+    for i in 0..@score.length-1
+      if (@score[i][0] != nil && @score[i][0]!=10)
 
-   
-    puts "#{@score.inject{|sum,x| sum + x }}"
-     puts "#{@score}"
+        if(@spare==1)
+          Spare(@score[i][0])
+          @spare=0
+        end
+        @gamescore << @score[i][0]
+      elsif @score[i][0]!=nil && @score[i][0]==10
+        @strike=1
+        Strike(i)
+      end
+      if @strike==0
+            if (@score[i][1] != nil && @score[i][1]+@score[i][0]==10)
+              @spare=1
+              @gamescore[positionElement]=@score[i][0]+@score[i][1]
+              
+            elsif (@score[i][1] != nil && @score[i][1]+@score[i][0]!=10)
+                @gamescore[positionElement]=@gamescore[positionElement]+@score[i][1]
+            end
+      else
+        @strike=0
+      end
+  
+    end
+
+    if (@score[9][2]!=nil) && @score[9][0]+@score[9][1]==10
+      Spare(@score[9][2])
+          @spare=0
+    end
+
+  
+  return @gamescore.inject{|sum,x| sum + x }
+  end
+
+  private
+
+  def positionElement
+    @ind= @gamescore.length-1
+    return @ind
+  end
+
+  def Spare(i)
+    @gamescore[positionElement]=@gamescore[positionElement]+i
+    @spare=0
+  end
+
+  def Strike(i)
+    if i<8
+      if @score[i+1][0]!=nil && @score[i+1][1]!=nil
+        @gamescore<<@score[i+1][0]+@score[i+1][1]+10
+      elsif @score[i+1][0]!=nil && @score[i+2][0]!=nil
+          @gamescore<<@score[i+1][0]+@score[i+2][0]+10
+      end
+    elsif i==8 && @score[i+1][0]!=nil && @score[i+1][1]!=nil
+      @gamescore<<@score[i+1][0]+@score[i+1][1]+10
+        
+      elsif @score[i][0]!=nil && @score[i][1]!=nil && @score[i][2]!=nil && i==9
+        @gamescore<<@score[9][0]+@score[9][1]+@score[9][2]
+    end
   end
 
 
@@ -161,14 +110,13 @@ bl.roll(10)
 bl.roll(10)
 bl.roll(10)
 bl.roll(10)
-bl.roll(10)
-bl.roll(10)
-bl.roll(10)
-bl.roll(10)
-bl.roll(10)
 
-bl.roll(1)
-bl.roll(1)
+bl.roll(10)
+bl.roll(10)
+bl.roll(10)
+bl.roll(4)
+bl.roll(6)
 
-
-bl.score
+bl.roll(4)
+bl.roll(4)
+puts bl.score
