@@ -22,29 +22,50 @@ class Bowling
 
   def score
     actual_frame=1
+    actual_pos=0
     score=0
     while actual_frame<=10 do 
-      if spare?(actual_frame)
-        score+=sparePoints(actual_frame)
-        actual_frame++
-      elsif strike?(actual_frame)
-        score+=strikePoints(actual_frame)
-        actual_frame++
+      if spare?(actual_pos)
+        puts "spare----\n"
+        puts "Position:" 
+        puts actual_frame
+        
+
+        score+=sparePoints(actual_pos)
+        actual_pos+=2
+        actual_frame+=1
+
+
+      elsif strike?(actual_pos)
+        puts "strike----\n"
+        puts "Position:" 
+        puts actual_frame
+
+        score+=strikePoints(actual_pos)
+        actual_pos+=1
+        actual_frame+=1
+
       else
-        score+=pins_in_frame(actual_frame)
+        puts "normal frame----\n"
+        puts "Position:" 
+        puts actual_frame
+        
 
-          
-          
+        score+=framePoints(actual_pos)
+        actual_pos+=2
+        actual_frame+=1
 
+        
       end
-
-      
+      #print for debug
+      puts score
     end
+    return score
   end
 
 
   def spare?(first_n_frame)
-  	if (@frames[first_n_frame-1]+@frames[first_n_frame])==10 then
+  	if (@frames[first_n_frame]+@frames[first_n_frame+1])==10 then
   		return true
   	else
   		return false
@@ -52,7 +73,7 @@ class Bowling
   end
 
   def strike?(first_n_frame)
-  	if @frames[first_n_frame-1]==10 then
+  	if @frames[first_n_frame]==10 then
   		return true
   	else 
   		return false
@@ -61,7 +82,7 @@ class Bowling
 
   def framePoints(first_n_frame)
     score=0
-    score+=@frames[first_n_frame-1]+@frames[first_n_frame]
+    score+=@frames[first_n_frame]+@frames[first_n_frame+1]
     return score
   end
 
@@ -73,7 +94,7 @@ class Bowling
 
   def strikePoints(first_n_frame)
     points=0
-    points+=10+@frames[first_n_frame+2]@frames[first_n_frame+3]
+    points+=10+@frames[first_n_frame+1]+@frames[first_n_frame+2]
     return points
   end
 
@@ -83,21 +104,31 @@ end
 b=Bowling.new("fred")
 
 b.roll(10)
+b.roll(7)
+b.roll(3)
+b.roll(7)
+b.roll(2)
+b.roll(9)
+b.roll(1)
 b.roll(10)
-b.roll(5)
-b.roll(4)
+b.roll(10)
+b.roll(10)
+b.roll(2)
+b.roll(3)
 b.roll(6)
 b.roll(4)
-#test
-puts b.strike?(1)
-#yes
-puts b.strike?(2)
-#yes
-puts b.spare?(2)
-#no
-puts b.spare?(3)
-#no
-puts b.spare?(4)
-#yes
-puts b.spare?(5)
-#yes
+b.roll(7)
+b.roll(3)
+b.roll(3)
+#b.roll(0)
+
+
+
+#puts b.frames[0]
+#puts b.frames[1]
+#puts b.frames[2]
+
+
+
+puts b.score()
+
