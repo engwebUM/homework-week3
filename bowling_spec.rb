@@ -47,5 +47,18 @@ RSpec.describe Bowling do
         bowling.roll(7)
         expect(bowling.score).to eq 21
     end
+    it "simulate a complete game for score 180" do
+      bowling.roll(10)
+      .roll(10)
+      .roll(10)
+      .roll(7).roll(2)
+      .roll(8).roll(2)
+      .roll(0).roll(9)
+      .roll(10)
+      .roll(7).roll(3)
+      .roll(9).roll(0)
+      .roll(10).roll(10).roll(8)
+      expect(bowling.score).to eq 180
+    end
   end
 end

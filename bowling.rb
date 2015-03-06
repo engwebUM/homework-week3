@@ -11,6 +11,8 @@ class Bowling
     @rolls[ @index ] = pins
     # the position in array is incremented with 1 value
     @index += 1
+    # allow multi rolls (method can be chained), is util for test complete game
+    self
   end
 
   # return the value of score game
