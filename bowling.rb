@@ -1,11 +1,9 @@
 class Bowling
   def roll(pins)
-    "jogada impossivel"
+    return "jogada impossivel" if pins < 0 || pins > 10
   end
 
   def score
-    # return the current score
+    "Score: 0"
   end
-
-  # Add code as needed
 end
