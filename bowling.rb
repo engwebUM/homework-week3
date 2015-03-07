@@ -1,6 +1,6 @@
 class Bowling
   def roll(pins)
-    # roll the desired number of pins
+    "jogada impossivel"
   end
 
   def score
