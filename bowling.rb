@@ -1,5 +1,4 @@
 class Bowling
-  attr_accessor :frames, :totalScore
 
   def initialize
     @frames    = Array.new(10) {Frame.new}
@@ -52,7 +51,7 @@ class Bowling
   #Return the current score
   def score
     @totalScore = 0
-    for i in 0 ... @frames.size-1
+    for i in 0 ... @frames.size
       # Found Strike
       if (@frames[i].rolls[0].pins == 10)
         strike(i)
@@ -75,7 +74,9 @@ class Bowling
     if(i == 9)
       #for each da ultima posicao... Assure the 3 Consecutive Strikes..
       @frames[i].rolls.each do |rollAux|
-        @totalScore += rollAux.pins
+        if !(rollAux.pins.nil?)
+          @totalScore += rollAux.pins
+        end
       end
     else
       # Search for the next 2 valid rolls
@@ -95,13 +96,13 @@ class Bowling
     end
   end
 
-  # Print the Frames Scores
+  #Print the Frames Scores
   def printFrames
     @frames.each do |frame|
       frame.rolls.each do |rollAux|
         print "|" + rollAux.pins.to_s + "|"
       end
-      print " "
+      print "  "
     end
     puts "\n"
   end
@@ -117,7 +118,7 @@ end
 
 class LastFrame < Frame
   def addExtraRoll
-    @rolls.push(Roll.new) # add extra roll
+    @rolls.push(Roll.new) # Add extra roll
   end
 end
 
@@ -140,7 +141,10 @@ game.roll(10)
 game.roll(10)
 game.roll(10)
 game.roll(10)
-game.roll(5)
+game.roll(10)
+game.roll(10)
+game.roll(10)
+game.roll(10)
 
 
 game.score
