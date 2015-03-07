@@ -165,6 +165,10 @@ class Bowling
 	end
 
 	def score
+		totalPontos
+	end
+
+	def scoreDetalhado
 		# return the current score
 		puts
 		puts "+-------------------------------------------------------------+"
@@ -174,6 +178,12 @@ class Bowling
 		puts "+-------------------------------------------------------------+"
 		puts "|#{aux2(1)}|#{aux2(2)}|#{aux2(3)}|#{aux2(4)}|#{aux2(5)}|#{aux2(6)}|#{aux2(7)}|#{aux2(8)}|#{aux2(9)}| #{aux2(10)} |"
 		puts "+-------------------------------------------------------------+"
+		puts
+		if score == 1
+			puts "Neste momento, o score é de #{score} ponto"
+		else
+			puts "Neste momento, o score é de #{score} pontos"
+		end
 	end
 
 	def aux (a, b)
@@ -238,71 +248,79 @@ end
 
 
 
-# Simulação do jogo PERFEITO
+=begin
 
-puts
-puts "Simulação do jogo PERFEITO"
+	# Para testes, correr a classe 'Testes'
 
-jogo2 = Bowling.new
-jogo2.roll(10)
-jogo2.roll(10)
-jogo2.roll(10)
-jogo2.roll(10)
-jogo2.roll(10)
-jogo2.roll(10)
-jogo2.roll(10)
-jogo2.roll(10)
-jogo2.roll(10)
-jogo2.roll(10)
-jogo2.roll(10)
-jogo2.roll(10)
-jogo2.score
+	class Testes
+		# Simulação do jogo PERFEITO
+
+		puts
+		puts "Simulação do jogo PERFEITO"
+
+		jogo2 = Bowling.new
+		jogo2.roll(10)
+		jogo2.roll(10)
+		jogo2.roll(10)
+		jogo2.roll(10)
+		jogo2.roll(10)
+		jogo2.roll(10)
+		jogo2.roll(10)
+		jogo2.roll(10)
+		jogo2.roll(10)
+		jogo2.roll(10)
+		jogo2.roll(10)
+		jogo2.roll(10)
+		jogo2.scoreDetalhado
 
 
-# Simulação do jogo exemplo detalhadamente
+		# Simulação do jogo exemplo detalhadamente
 
-puts
-puts "==============================================================="
+		puts
+		puts "==============================================================="
+		puts
+		puts
+		puts "Simulação do jogo exemplo detalhadamente"
 
-puts
-puts "Simulação do jogo exemplo detalhadamente"
+		jogo = Bowling.new
+		jogo.roll(1)
+		jogo.scoreDetalhado
+		jogo.roll(4)
+		jogo.scoreDetalhado
+		jogo.roll(4)
+		jogo.scoreDetalhado
+		jogo.roll(5)
+		jogo.scoreDetalhado
+		jogo.roll(6)
+		jogo.scoreDetalhado
+		jogo.roll(4)
+		jogo.scoreDetalhado
+		jogo.roll(5)
+		jogo.scoreDetalhado
+		jogo.roll(5)
+		jogo.scoreDetalhado
+		jogo.roll(10)
+		jogo.scoreDetalhado
+		jogo.roll(0)
+		jogo.scoreDetalhado
+		jogo.roll(1)
+		jogo.scoreDetalhado
+		jogo.roll(7)
+		jogo.scoreDetalhado
+		jogo.roll(3)
+		jogo.scoreDetalhado
+		jogo.roll(6)
+		jogo.scoreDetalhado
+		jogo.roll(4)
+		jogo.scoreDetalhado
+		jogo.roll(10)
+		jogo.scoreDetalhado
+		jogo.roll(2)
+		jogo.scoreDetalhado
+		jogo.roll(8)
+		jogo.scoreDetalhado
+		jogo.roll(6)
+		jogo.scoreDetalhado
+	end
 
-jogo = Bowling.new
-jogo.roll(1)
-jogo.score
-jogo.roll(4)
-jogo.score
-jogo.roll(4)
-jogo.score
-jogo.roll(5)
-jogo.score
-jogo.roll(6)
-jogo.score
-jogo.roll(4)
-jogo.score
-jogo.roll(5)
-jogo.score
-jogo.roll(5)
-jogo.score
-jogo.roll(10)
-jogo.score
-jogo.roll(0)
-jogo.score
-jogo.roll(1)
-jogo.score
-jogo.roll(7)
-jogo.score
-jogo.roll(3)
-jogo.score
-jogo.roll(6)
-jogo.score
-jogo.roll(4)
-jogo.score
-jogo.roll(10)
-jogo.score
-jogo.roll(2)
-jogo.score
-jogo.roll(8)
-jogo.score
-jogo.roll(6)
-jogo.score
+=end
