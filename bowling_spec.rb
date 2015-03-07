@@ -23,19 +23,44 @@ RSpec.describe Bowling do
   end
 
   context '#score' do
-    it 'prints score 0 when game is started' do
+    it 'returns score 0 when game is started' do
       bowling = Bowling.new
-      output = bowling.score
 
-      expect(output).to eq "Score: 0"
+      expect(bowling.score).to eq 0
     end
 
-    it 'prints correct score after rolling 1 pin' do
+    it 'returns correct score after rolling 1 pin' do
       bowling = Bowling.new
       bowling.roll(1)
-      output = bowling.score
 
-      expect(output).to eq "Score: 1"
+      expect(bowling.score).to eq 1
+    end
+
+    it 'returns correct score after missing every time' do
+      bowling = Bowling.new
+      for i in 0..20
+        bowling.roll(0)
+      end
+
+      expect(bowling.score).to eq 0
+    end
+
+    it 'returns correct score after a spare' do
+      bowling = Bowling.new
+      bowling.roll(7)
+      bowling.roll(3)
+      bowling.roll(2)
+      bowling.roll(1)
+
+      expect(bowling.score).to eq 14
+    end
+
+    it 'returns correct score after a strike' do
+      bowling.roll(10)
+      bowling.roll(2)
+      bowling.roll(1)
+
+      expect(bowling.score).to eq 16
     end
   end
 end
