@@ -267,6 +267,7 @@ puts "==============================================================="
 puts
 puts "Simulação do jogo exemplo detalhadamente"
 
+jogo = Bowling.new
 jogo.roll(1)
 jogo.score
 jogo.roll(4)
