@@ -2,7 +2,6 @@ class Bowling
   attr_accessor :frames, :totalScore
 
   def initialize
-    #@frames  = Array.new(10) { Frame.new }
     @frames    = Array.new(10) {Frame.new}
     @frames[9] = LastFrame.new
     @position  = 0
@@ -11,34 +10,8 @@ class Bowling
 
   # Roll the desired number of pins
   def roll(pins)
-    # First Play in Last Frame
-    if (@position == 9 && @frames[@position].rolls[0].pins.nil?)
-      puts "entrou 1 fase: " + pins.to_s
-      if (pins == 10)
-        @frames[@position].addExtraRoll
-      end
-      @frames[@position].rolls[0].pins = pins
-    else
-      # Second Play in Last Frame
-      if (@position == 9 && @frames[@position].rolls[1].pins.nil?)
-        puts "entrou 2 fase: " + pins.to_s
-        if (@frames[@position].rolls[0].pins + pins == 10)
-          @frames[@position].addExtraRoll
-        end
-        @frames[@position].rolls[1].pins = pins
-      else
-        # Third Play in Last Frame
-        if (@position == 9 && (@frames[@position].rolls[0].pins + @frames[@position].rolls[1].pins >= 10))
-          puts "entrou 3 fase: " + pins.to_s
-          @frames[@position].rolls[2].pins = pins
-          @position = @position + 1
-        else
-          puts "Game is already Over"
-        end
-      end
-    end
 
-    # Game play from 0 to 8 Frame
+    # Game play for the firs 9 Frames
     if (@position < 9)
       # First Roll play
       if (@frames[@position].rolls[0].pins.nil?)
@@ -50,6 +23,28 @@ class Bowling
       else
           @frames[@position].rolls[1].pins = pins
           @position = @position + 1
+      end
+    end
+
+    # First Play in Last Frame
+    if (@position == 9 && @frames[@position].rolls[0].pins.nil?)
+      if (pins == 10)
+        @frames[@position].addExtraRoll
+      end
+      @frames[@position].rolls[0].pins = pins
+    else
+      # Second Play in Last Frame
+      if (@position == 9 && @frames[@position].rolls[1].pins.nil?)
+        if (@frames[@position].rolls[0].pins + pins == 10)
+          @frames[@position].addExtraRoll
+        end
+        @frames[@position].rolls[1].pins = pins
+      else
+        # Third Play in Last Frame
+        if (@position == 9 && (@frames[@position].rolls[0].pins + @frames[@position].rolls[1].pins >= 10))
+          @frames[@position].rolls[2].pins = pins
+          @position = @position + 1
+        end
       end
     end
   end
@@ -66,6 +61,7 @@ class Bowling
         if (@frames[i].rolls[0].pins + @frames[i].rolls[1].pins == 10)
           spare(i)
         else
+          # Normal Pontuation
           @frames[i].rolls[0].pins + @frames[i].rolls[1].pins + @frames[i+1].rolls[0].pins
         end
       end
@@ -99,20 +95,27 @@ class Bowling
     end
   end
 
+  # Print the Frames Scores
+  def printFrames
+    @frames.each do |frame|
+      frame.rolls.each do |rollAux|
+        print "|" + rollAux.pins.to_s + "|"
+      end
+      print " "
+    end
+    puts "\n"
+  end
+
 end
 
 class Frame
    attr_accessor :score, :rolls
    def initialize
-     @score
      @rolls = Array.new(2) { Roll.new }
    end
 end
 
 class LastFrame < Frame
-
-
-
   def addExtraRoll
     @rolls.push(Roll.new) # add extra roll
   end
@@ -137,16 +140,8 @@ game.roll(10)
 game.roll(10)
 game.roll(10)
 game.roll(10)
+game.roll(5)
 
-game.roll(10)
-game.roll(10)
-game.roll(10)
-game.roll(10)
-game.roll(10)
-game.roll(10)
-game.roll(10)
-game.roll(10)
-game.roll(10)
-game.roll(10)
 
 game.score
+game.printFrames
