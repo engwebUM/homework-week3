@@ -1,17 +1,45 @@
 class Bowling
-  attr_accessor :frames
+  attr_accessor :frames, :totalScore
 
   def initialize
     #@frames  = Array.new(10) { Frame.new }
     @frames    = Array.new(10) {Frame.new}
-    #@frames[9] = Array.new     {LastFrames.new}
+    @frames[9] = LastFrame.new
     @position  = 0
+    @totalScore = 0
   end
 
   # Roll the desired number of pins
   def roll(pins)
+    # First Play in Last Frame
+    if (@position == 9 && @frames[@position].rolls[0].pins.nil?)
+      puts "entrou 1 fase: " + pins.to_s
+      if (pins == 10)
+        @frames[@position].addExtraRoll
+      end
+      @frames[@position].rolls[0].pins = pins
+    else
+      # Second Play in Last Frame
+      if (@position == 9 && @frames[@position].rolls[1].pins.nil?)
+        puts "entrou 2 fase: " + pins.to_s
+        if (@frames[@position].rolls[0].pins + pins == 10)
+          @frames[@position].addExtraRoll
+        end
+        @frames[@position].rolls[1].pins = pins
+      else
+        # Third Play in Last Frame
+        if (@position == 9 && (@frames[@position].rolls[0].pins + @frames[@position].rolls[1].pins >= 10))
+          puts "entrou 3 fase: " + pins.to_s
+          @frames[@position].rolls[2].pins = pins
+          @position = @position + 1
+        else
+          puts "Game is already Over"
+        end
+      end
+    end
 
-    if (@position < 10)
+    # Game play from 0 to 8 Frame
+    if (@position < 9)
       # First Roll play
       if (@frames[@position].rolls[0].pins.nil?)
         @frames[@position].rolls[0].pins = pins
@@ -23,52 +51,26 @@ class Bowling
           @frames[@position].rolls[1].pins = pins
           @position = @position + 1
       end
-    else
-      puts "The game is allready over!"
     end
   end
 
   #Return the current score
   def score
-    # totalScore = 0
-    # frames.each do |frame|
-    #   frame.rolls.each do |rollAux|
-    #     # If the game isn't finished we don't sum nil values.
-    #
-    #     if !(rollAux.pins.nil?)
-    #       totalScore += rollAux.pins
-    #     end
-    #   end
-    # end
-    totalScore = 0
-    for i in 0 ... frames.size
+    @totalScore = 0
+    for i in 0 ... @frames.size-1
       # Found Strike
-      if (frames[i].rolls[0].pins == 10)
-        # totalScore +=
+      if (@frames[i].rolls[0].pins == 10)
         strike(i)
       else
         # Found Spare
         if (@frames[i].rolls[0].pins + @frames[i].rolls[1].pins == 10)
-          # totalScore +=
           spare(i)
         else
-          # Normal Score
-          totalScore += @frames[i].rolls[0].pins + @frames[i].rolls[1].pins
+          @frames[i].rolls[0].pins + @frames[i].rolls[1].pins + @frames[i+1].rolls[0].pins
         end
       end
-
     end
-    puts "The final score for this game is: " + totalScore.to_s
-  end
-
-  # Return Spare value
-  def spare(i)
-    # Verify if is the last Frame
-    if(i == 9)
-      @frames[i].rolls[0].pins + @frames[i].rolls[1].pins + @frames[i].rolls[2].pins
-    else
-      @frames[i].rolls[0].pins + @frames[i].rolls[1].pins + @frames[i+1].rolls[0].pins
-    end
+    puts "\nFinal Score: " + @totalScore.to_s
   end
 
   # Return Strike value
@@ -87,6 +89,7 @@ class Bowling
         if (i+1 == 9)
           @totalScore += @frames[i].rolls[0].pins + @frames[i+1].rolls[0].pins + @frames[i+1].rolls[1].pins
         else
+        ## If not the last frame we can add the next 2 Rolls(ex: Strike+Strike or Strike+PinsDown) from the 2 next Frames
           @totalScore += @frames[i].rolls[0].pins + @frames[i+1].rolls[0].pins + @frames[i+2].rolls[0].pins
         end
       else
@@ -107,8 +110,11 @@ class Frame
 end
 
 class LastFrame < Frame
+
+
+
   def addExtraRoll
-    @roll.push(Array.new { Roll.new }) # add extra roll
+    @rolls.push(Roll.new) # add extra roll
   end
 end
 
@@ -135,12 +141,12 @@ game.roll(10)
 game.roll(10)
 game.roll(10)
 game.roll(10)
-# game.roll(10)
-# game.roll(10)
-# game.roll(10)
-# game.roll(10)
-# game.roll(10)
-# game.roll(10)
-# game.roll(10)
+game.roll(10)
+game.roll(10)
+game.roll(10)
+game.roll(10)
+game.roll(10)
+game.roll(10)
+game.roll(10)
 
-# game.score
+game.score
