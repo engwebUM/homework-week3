@@ -16,7 +16,6 @@ class Bowling
   def score
     # return the current score
     res = count = frame = 0
-    resarr = []
     err = false
     while (frame < 10 && @rolls[count]!=nil)
         if(@rolls[count] == 10) #strike
