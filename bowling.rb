@@ -77,7 +77,7 @@ class Bowling
         end
         # Third Roll Play in Last Frame (Only when exists)
       else
-        if ((@frames[9].rolls[0].pins + @frames[9].rolls[1].pins >= 10))
+        if ((sumAllRollsInFrame(9) >= 10))
           @frames[@position].rolls[2].pins = pins
           @position = @position + 1
         end
