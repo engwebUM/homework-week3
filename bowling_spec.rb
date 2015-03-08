@@ -69,6 +69,12 @@ RSpec.describe Bowling do
       expect(bowling.score).to eq 16
     end
 
+    it 'returns correct score after two consecutive strikes' do
+      roll_balls(bowling, [10, 10, 2, 1])
+
+      expect(bowling.score).to eq 38
+    end
+
     it 'returns correct score after 12 strikes' do
       for i in 1..12
         bowling.roll(10)
