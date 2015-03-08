@@ -28,16 +28,11 @@ class Frame
   end
 
   def firstAttempt
-    validAttempt(@scores[0])
+    @scores[0].to_i
   end
 
   def score
-    validAttempt(@scores[0]) + validAttempt(@scores[1])
-  end
-
-  private
-  def validAttempt(num)
-    num.nil? ? 0 : num.to_i
+    @scores[0].to_i + @scores[1].to_i
   end
 end
 
