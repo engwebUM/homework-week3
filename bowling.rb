@@ -8,14 +8,30 @@ class Bowling
 
   # Roll the desired number of pins
   def roll(pins)
-
-    case @position
-    when 0..8
-      framePlay(pins)
-    when 9
-      lastFramePlay(pins)
+    # Verify invalid numbers
+    if (pins < 0 || pins > 10)
+      return "Invalid Values" # Used for RSpec tests
     else
-      return "Game is already over" # Used for RSpec tests
+      # Choose the game behavior.
+      case @position
+      when 0..8
+        # Verify is exceeds the Maximum pins per Frame
+        if (sumAllRollsInFrame(@position) + pins > 10 )
+         return "Exceeds the maximum pins available for this frame" # Used for RSpec tests
+       else
+        framePlay(pins)
+        end
+      when 9
+        # Verify is exceeds the Maximum pins in the Last Frame
+        if (@frames[9].rolls.length == 2 && (@frames[9].rolls[0] != 10))
+          if (sumAllRollsInFrame(@position) + pins > 10)
+           return "Exceeds the maximum pins available in the Last frame" # Used for RSpec tests
+         end
+       end
+       lastFramePlay(pins)
+     else
+        return "Game is already over" # Used for RSpec tests
+      end
     end
   end
 
@@ -30,8 +46,9 @@ class Bowling
           @position = @position + 1
         end
       else
-          @frames[@position].rolls[1].pins = pins
-          @position = @position + 1
+        # Second Roll play
+        @frames[@position].rolls[1].pins = pins
+        @position = @position + 1
       end
   end
 
@@ -77,7 +94,7 @@ class Bowling
           @totalScore += spare(i)
         else
           # Normal Pontuation
-            @totalScore += @frames[i].rolls[0].pins + @frames[i].rolls[1].pins
+          @totalScore += @frames[i].rolls[0].pins + @frames[i].rolls[1].pins
         end
       end
     end
@@ -165,11 +182,11 @@ game.score
 game.printFrames
 
 game = Bowling.new
-21.times {game.roll(5)}
+22.times {game.roll(5)}
 game.score
 game.printFrames
 
 game = Bowling.new
-13.times {game.roll(10)}
+12.times {game.roll(10)}
 game.score
 game.printFrames
