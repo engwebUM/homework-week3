@@ -3,22 +3,38 @@ require 'rspec'
 
 RSpec.describe Bowling do
   context '#roll' do
+    it 'accepts a normal roll' do
+      bowling = Bowling.new
+
+      expect { bowling.roll(10) }.not_to raise_error
+    end
+
     it 'rejects a negative roll' do
       bowling = Bowling.new
 
-      expect { bowling.roll(-1) }.to raise_error("jogada impossivel")
+      expect { bowling.roll(-1) }.to raise_error("impossible play")
     end
 
     it 'rejects a roll greater than 10' do
       bowling = Bowling.new
 
-      expect { bowling.roll(11) }.to raise_error("jogada impossivel")
+      expect { bowling.roll(11) }.to raise_error("impossible play")
     end
 
-    it 'accepts a normal roll' do
+    it 'rejects a roll greater than standing pins' do
       bowling = Bowling.new
+      bowling.roll(6)
 
-      expect { bowling.roll(10) }.not_to raise_error
+      expect { bowling.roll(6) }.to raise_error("impossible play")
+    end
+
+    it 'rejects a roll after the game is over' do
+      bowling = Bowling.new
+      for i in 1..20
+        bowling.roll(0)
+      end
+
+      expect { bowling.roll(10) }.to raise_error("game over")
     end
   end
 
