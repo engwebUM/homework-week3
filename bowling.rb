@@ -35,10 +35,8 @@ class Bowling
 	end
 
 	def roll(pins) # roll the desired number of pins
-		errorcode = 0
 		if (pins < 0 or pins > 10)
-			errorcode = 1			
-			#puts 'Error: Invalid number of pins'
+			"Error1: Invalid number of pins"
 		
 		#Last frame case
 		elsif (@actualFrame == 9)
@@ -48,15 +46,13 @@ class Bowling
 				elsif (@frames[9].specialThirdLaunch == -1)
 					@frames[9].setThirdLaunch(pins)
 				else
-					errorcode = 2					
-					#puts 'The game is finished. No more launchs.'
+					"Error2_1: The game is finished. No more launchs."
 				end
 			elsif (@frames[9].sparebonus == 1)
 				if (@frames[9].specialThirdLaunch == -1)
 					@frames[9].setThirdLaunch(pins)
 				else
-					errorcode = 2					
-					#puts 'The game is finished. No more launchs.'
+					"Error2_2: The game is finished. No more launchs"
 				end
 			else
 				if (@frames[9].firstLaunch == -1)
@@ -65,12 +61,10 @@ class Bowling
 					if (@frames[9].firstLaunch + pins <= 10)
 					@frames[9].setSecondLaunch(pins)						
 					else
-						errorcode = 3
-						#puts 'Error: The number of pins you want to add is incorrect.'
+						"Error3: The number of pins you want to add is incorrect."
 					end
 				else
-					errorcode = 2
-					#puts 'The game is finished. No more launchs.'
+					"Error2_3: The game is finished. No more launchs."
 				end
 			end
 		#The number of frames is lower than 10
@@ -92,8 +86,7 @@ class Bowling
 					@frames.push(fr)
 					@actualFrame += 1
 					else
-						errorcode = 4
-						#puts 'The number of pins dropped in the frame exceeded the limit of 10'
+						"Error4_1: The number of pins dropped in the frame exceeded the limit of 10"
 					end
 				else
 					createFrame(pins)
@@ -109,15 +102,13 @@ class Bowling
 					@frames.push(fr)
 					@actualFrame += 1
 				else
-					errorcode = 4
-					#puts 'The number of pins dropped in the frame exceed the limit of 10'
+					"Error4_2: The number of pins dropped in the frame exceed the limit of 10"
 					
 				end
 			else
 				createFrame(pins)
 			end
 		end
-		errorcode
 	end
 	
 	def createFrame(pins)
