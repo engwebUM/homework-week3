@@ -1,27 +1,3 @@
-#
-#		REGRAS DO JOGO RESUMIDAS
-#
-# - 10 frames maximo
-
-	# - cada frame tem 2 tentativas
-		# - nas duas jogadas pode no máximo deitar abaixo 10 pinos
-		
-	# - cada frame tem um score = pinos derrubados + bonus de strike + bonus de spare
-		# - spare é quando: na soma das duas tentativas, derruba 10 pinos
-			# - acontece: soma um bonus
-				# - bonus = pinos derrubados na tentative seguinte (primeira tentativa do frame seguinte)
-		# - strike é quando: na primeira tentativa do frame, derruba 10 pinos
-			# - acontece: soma um bonus
-				# - bonus = soma da primeira e segunda tentativa do frame seguinte
-				
-# - se no 10 frame houver um strike:
-	# - pode jogar um frame 11 com 2 tentativas
-	
-# - se no 10 frame houver um spare:
-	# - pode jogar um frame 11 com 1 tentativa
-
-
-
 class Bowling
 
 	attr_accessor :rolls
@@ -31,7 +7,7 @@ class Bowling
 		@rolls = []
 	end
 	
-	# roll funciont adds
+	# add roll to rolls 
 	def roll(pins)
 		if pins == 10
 			@rolls.push pins
@@ -41,7 +17,8 @@ class Bowling
 		end
 	end
 
-	# Score - dá a pontuação por frame - dá para ver em qualquer momento, e com jogadas por completar.
+	# Score - return the score on 'pontos' variable
+	# Can return the score at any time, in the middle of a frame or uncomplete game
 	def score
 		pontos = 0
 		index = 0
