@@ -1,5 +1,5 @@
 class Bowling
-  attr_reader :pins_standing, :playing_roll, :rolls
+  attr_reader :pins_standing, :rolls
 
   def initialize
     @rolls = Array.new(21)
@@ -13,17 +13,15 @@ class Bowling
 
     rolls[playing_roll] = pins
     if playing_roll < 18
-      if playing_roll.even? && pins == 10
-        rolls[playing_roll+1] = 0
-        @playing_roll += 1
+      if playing_roll.odd? && pins == 10
+        rolls[playing_roll] = 0
       else
-        playing_roll.odd? ? @pins_standing = 10 : @pins_standing -= pins
+        playing_roll.even? ? @pins_standing = 10 : @pins_standing -= pins
       end
     else  # tenth frame
-      rolls[20] = 0 if playing_roll > 18 && !(strike?(9) || spare?(9))
+      rolls[20] = 0 if playing_roll > 19 && !(strike?(9) || spare?(9))
       pins == pins_standing ? @pins_standing = 10 : @pins_standing -= pins
     end
-    @playing_roll += 1
   end
 
   def score
@@ -69,6 +67,10 @@ class Bowling
 
   def game_over?
     rolls.find_index(nil) == nil
+  end
+
+  def playing_roll
+    rolls.find_index(nil).to_i
   end
 
   def spare? (frame)
