@@ -6,7 +6,6 @@ RSpec.describe Bowling do
 		@jogo = Bowling.new
 	end
 	
-	
 	context '#roll' do
 	
 		it 'TESTE: primeiro roll acerta 3 pinos' do
@@ -201,8 +200,6 @@ RSpec.describe Bowling do
 			@jogo.roll(10)
 			expect(@jogo.score).to eq 300
 		end
-  
+		
 	end
- 
- 
 end

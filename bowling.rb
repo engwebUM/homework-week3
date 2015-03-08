@@ -33,7 +33,6 @@ class Bowling
 	
 	# roll funciont adds
 	def roll(pins)
-		# add pins to the end of rolls array
 		if pins == 10
 			@rolls.push pins
 			@rolls.push 0
@@ -42,14 +41,10 @@ class Bowling
 		end
 	end
 
-	# Score - dá a pontuação por frame - não dá para ver a meio do frame, ou se tiver jogadas por completar.
-	# lets start by initializing one counter and one index to navigate rolls
-	# Ther create a loop that runs rolls array, returning the score on 'pontos'
-	# After the loops, if it exists, he adds the "11th frame"
+	# Score - dá a pontuação por frame - dá para ver em qualquer momento, e com jogadas por completar.
 	def score
 		pontos = 0
 		index = 0
-
 		while (index < 20 && @rolls[index]) do
 			if strike? index
 				pontos += pontosStrike (index)
@@ -62,10 +57,6 @@ class Bowling
 			end
 			index += 2
 		end
-		
-		
-		
-		
 		pontos
 	end
 
@@ -82,15 +73,6 @@ class Bowling
 	end
 	
 	# return score to add, if Strike
-	# def pontosStrike index
-		# if @rolls[index + 3]
-			# 10 + @rolls[index + 2] + @rolls[index + 3]
-		# elsif @rolls[index + 2]
-			# 10 + @rolls[index + 2]
-		# else
-			# 10
-		# end
-	# end
 	def pontosStrike index
 		if @rolls[index + 2]
 			if @rolls[index + 2] == 10
@@ -110,11 +92,6 @@ class Bowling
 			10
 		end
 	end
-	
-	
-	
-	
-	
 	
 	# return score to add, if Spare
 	def pontosSpare index
