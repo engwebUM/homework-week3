@@ -12,37 +12,39 @@ class Bowling
 
     # First Play in Last Frame
     if (@position == 9 && @frames[@position].rolls[0].pins.nil?)
-      puts "entrou 1: " + pins.to_s
+      @frames[@position].rolls[0].pins = pins
       if (pins == 10)
         @frames[@position].addExtraRoll
       end
-      @frames[@position].rolls[0].pins = pins
     elsif (@position == 9 && @frames[@position].rolls[1].pins.nil?) # Second Play in Last Frame
-        puts "entrou 2: " + pins.to_s
+        @frames[@position].rolls[1].pins = pins
         if (@frames[@position].rolls[0].pins + pins == 10 && (@frames[@position].rolls[0].pins != 10))
           @frames[@position].addExtraRoll
         else
+          if (@frames[@position].rolls[0].pins + pins < 10 )
+            @position = @position + 1
+          end
+        end
+      else
+        if (@position == 9 && (@frames[9].rolls[0].pins + @frames[9].rolls[1].pins >= 10))  # Third Play in Last Frame
+          @frames[@position].rolls[2].pins = pins
           @position = @position + 1
         end
-        @frames[@position].rolls[1].pins = pins
-      # elsif (@position == 9 && (@frames[9].rolls[0].pins + @frames[9].rolls[1].pins >= 10))  # Third Play in Last Frame
-      #     puts "entrou 3: " + pins.to_s
-      #     puts (@frames[9].rolls[0].pins + @frames[9].rolls[1].pins).to_s
-      #     @frames[@position].rolls[2].pins = pins
-      #     @position = @position + 1
-      #   end
     end
 
     # Game play for the firs 9 Frames
     if (@position < 9)
       # First Roll play
       if (@frames[@position].rolls[0].pins.nil?)
+        #puts "entrou primeira vez:" + pins.to_s
         @frames[@position].rolls[0].pins = pins
         if (pins == 10)
+          #puts "entrou com 10:" + pins.to_s
           @frames[@position].rolls[1].pins = "0" # If strikes, the second roll is 0 because player wont play it!
           @position = @position + 1
         end
       else
+        #puts "entrou segunda:" + pins.to_s
           @frames[@position].rolls[1].pins = pins
           @position = @position + 1
       end
@@ -62,7 +64,7 @@ class Bowling
           spare(i)
         else
           # Normal Pontuation
-          @frames[i].rolls[0].pins + @frames[i].rolls[1].pins + @frames[i+1].rolls[0].pins
+            @totalScore += @frames[i].rolls[0].pins + @frames[i].rolls[1].pins
         end
       end
     end
@@ -147,26 +149,29 @@ end
 
 game = Bowling.new
 
-game.roll(10)
-game.roll(10)
-game.roll(10)
-game.printFrames
-game.roll(10)
-game.roll(10)
-game.roll(10)
-game.roll(10)
-game.roll(10)
-game.printFrames
 game.roll(5)
-game.printFrames
-game.roll(1)
-game.printFrames
- game.roll(5)
- game.printFrames
- game.roll(2)
- game.printFrames
+game.roll(5)
 
- game.roll(10)
+game.roll(10)
+game.roll(10)
+
+game.roll(10)
+game.roll(10)
+
+game.roll(10)
+game.roll(10)
+
+game.roll(5)
+game.roll(1)
+
+game.roll(5)
+game.roll(2)
+
+game.roll(10)
+game.roll(10)
+
+game.roll(10)
+game.roll(10)
 # game.roll(10)
 
 
