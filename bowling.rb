@@ -15,9 +15,9 @@ class Bowling
 
   def score
     # return the current score
-    res = 0
-    count = 0
-    frame = 0
+    res = count = frame = 0
+    resarr = []
+    err = false
     while (frame < 10 && @rolls[count]!=nil)
         if(@rolls[count] == 10) #strike
           if(@rolls[count+1]!=nil && @rolls[count+2]!=nil)
@@ -28,7 +28,7 @@ class Bowling
               count+=1
             end
           else
-            raise "ErroIncompletoStrike" #Jogadas incompletas do strike
+            err = true
           end
         else
           if(@rolls[count+1]!=nil)
@@ -37,7 +37,7 @@ class Bowling
                 res+=10+@rolls[count+2]
                 count+=2
               else
-                raise "ErroIncompletoSpare" #Jogadas incompletas do spare
+                err = true
               end
             elsif(@rolls[count]+@rolls[count+1]>10) #erro > 10
               raise "ErroScore"
@@ -50,12 +50,12 @@ class Bowling
               end
             end
           else
-            raise "ErroIncompleto" #Jogadas incompletas
+            err = true
           end
         end
       frame+=1
     end
-    if(@rolls[count+1]!=nil)
+    if(@rolls[count+1]!=nil && frame == 10 && err==false)
       raise "ErroTerminado" #Jogado depois do jogo estar terminado
     end
     res

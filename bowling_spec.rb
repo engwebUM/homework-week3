@@ -80,9 +80,10 @@ RSpec.describe Bowling do
     end
 
     it 'score num frame' do
-        b.roll(6)
+        b.roll(4)
         b.roll(3)
-        expect(b.score).to match(9)
+        b.roll(5)
+        expect(b.score).to match(7)
     end
 
     it 'rolls do anunciado com score 133 pontos' do
@@ -98,28 +99,6 @@ RSpec.describe Bowling do
         rolls(21,0)
         b.score
       }.to raise_error "ErroTerminado"
-    end
-
-    it 'ERRO! jogadas incompletas com um strike' do
-      expect{
-        b.roll(10)
-        b.roll(6)
-        b.score
-      }.to raise_error "ErroIncompletoStrike"
-    end
-
-    it 'ERRO! Jogadas incompletas com um spare' do
-      expect{
-        rolls(2,5)
-        b.score
-      }.to raise_error "ErroIncompletoSpare"
-    end
-
-    it 'ERRO! Jogadas incompletas num frame' do
-      expect{
-        b.roll(5)
-        b.score
-      }.to raise_error "ErroIncompleto"
     end
 
     it 'ERRO! score > 10 num frame' do
