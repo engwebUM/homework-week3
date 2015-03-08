@@ -1,50 +1,47 @@
 class Frame
-  attr_reader :scores, :strike, :noAttempts, :noOfPins
 
   def initialize
-    @scores = Array.new(Bowling::MAX_ATTEMPTS_PER_FRAME, 0)
-    @noOfPins = 10
+    @scores = Array.new(Bowling::MAX_ATTEMPTS_PER_FRAME)
+    @noOfPins = Bowling::MAX_PINS
     @noAttempts = 0
   end
 
   def isSpare
-    noOfPins = Bowling::MIN_PINS && noAttempts == Bowling::MAX_ATTEMPTS_PER_FRAME && score == Bowling::MAX_PINS
+    firstAttempt < Bowling::MAX_PINS && score == Bowling::MAX_PINS
   end
 
   def isStrike
-    noOfPins = Bowling::MIN_PINS && noAttempts == Bowling::MAX_ATTEMPTS_PER_FRAME && firstAttempt == Bowling::MAX_PINS
+    firstAttempt == Bowling::MAX_PINS
   end
 
   def isDone
-    noAttempts == Bowling::MAX_ATTEMPTS_PER_FRAME
+    @noAttempts == Bowling::MAX_ATTEMPTS_PER_FRAME
   end
 
-  def setScore(pins, frameCounter)
-    @scores[noAttempts] = pins
+  def setScore(pins = 0)
+    raise 'Number of pins exceeded' if @noOfPins - pins < 0
+
+    @scores[@noAttempts] = pins
     @noAttempts += 1
     @noOfPins -= pins #remaining pins
-
-    if pins == Bowling::MAX_PINS && @noAttempts == 1
-    #if normal frame than close frame else reset (tenth) frame pins
-     frameCounter < Bowling::MAX_FRAMES - 1 ? @noAttempts += 1 : @noOfPins = 10
-    end
-  end
-
-  def limitToOneAttempt
-    @noAttempts += 1
+    @noAttempts += 1 if firstAttempt == Bowling::MAX_PINS #complete frame attempts
   end
 
   def firstAttempt
-    scores[0].to_i
+    validAttempt(@scores[0])
   end
 
   def score
-    scores[0] + scores[1].to_i
+    validAttempt(@scores[0]) + validAttempt(@scores[1])
+  end
+
+  private
+  def validAttempt(num)
+    num.nil? ? 0 : num.to_i
   end
 end
 
 class Bowling
-
   attr_reader :frames, :frameCounter
 
   MAX_FRAMES = 10
@@ -55,26 +52,82 @@ class Bowling
 
   def initialize
     @frameCounter = 0
-    @frames = Array.new(MAX_FRAMES){ Frame.new }
+    @extraBalls = 0
+    @frames = Array.new(MAX_FRAMES + 2){ Frame.new }
   end
 
-  # roll the desired number of pins
-  def roll(pins)
+  def roll(pins=MIN_PINS)
     raise 'Invalid number of pins' if pins > MAX_PINS || pins < MIN_PINS
-
     frame = getFrame
+    raise 'All attempts exhausted - start new game' if getFrame == nil
+    frame.setScore(pins)
 
-    raise 'All attempts exhausted - start new game' if frame == nil
-
-    frame.setScore(pins, frameCounter)
-
-    if isBonusFrame
-        frame.limitToOneAttempt
+    if frameCounter >= MAX_FRAMES #bonus
+        raise 'Extra balls exceeded - start new game' if @extraBalls == 0
+        @extraBalls -= 1
     end
   end
 
-  # return the current score
   def score
+    score = 0
 
+    if frameCounter == MIN_FRAMES
+      return getCurrentFrame.score
+    else
+      frameCounter > MAX_FRAMES - 2 ? max = MAX_FRAMES - 2 : max = frameCounter # find max
+      for i in 0..max
+        score += frames[i].score
+        if frames[i].isStrike
+          score += closeTwoBallsScore(i)
+        elsif frames[i].isSpare
+          score += closeFrame(i).firstAttempt
+        end
+      end
+
+      if frameCounter >= MAX_FRAMES - 1 #bonus frame score
+        for i in MAX_FRAMES - 1..frameCounter
+          score += frames[i].score
+        end
+      end
+      score
+    end
+  end
+
+  private
+
+  def closeFrame(currentFramNumber)
+    frames[currentFramNumber + 1]
+  end
+
+  def closeTwoBallsScore(currentFramNumber)
+    closeFrame = closeFrame(currentFramNumber)
+    closeFrame.isStrike ? closeFrame.score + closeFrame(currentFramNumber + 1).firstAttempt : closeFrame.score
+  end
+
+  def getFrame
+    frame = getCurrentFrame
+
+    if frame.isDone
+      if isLastFrame
+        if !(frame.isSpare || frame.isStrike)
+          return nil
+        elsif frame.isStrike
+          @extraBalls = 2
+        elsif frame.isSpare
+          @extraBalls = 1
+        end
+      end
+      @frameCounter += 1
+      frame = getCurrentFrame
+    end
+    frame
+  end
+
+  def getCurrentFrame
+    frames[frameCounter]
+  end
+
+  def isLastFrame
+    frameCounter == MAX_FRAMES - 1
   end
 end
