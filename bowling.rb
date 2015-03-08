@@ -96,6 +96,16 @@ class Bowling
     end
   end
 
+  # Return Spare value
+  def spare(i)
+    # Verify if is the last Frame
+    if(i == 9)
+      @totalScore = @frames[i].rolls[0].pins + @frames[i].rolls[1].pins + @frames[i].rolls[2].pins
+    else
+      @totalScore = @frames[i].rolls[0].pins + @frames[i].rolls[1].pins + @frames[i+1].rolls[0].pins
+    end
+  end
+
   #Print the Frames Scores
   def printFrames
     @frames.each do |frame|
