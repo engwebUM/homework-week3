@@ -27,7 +27,7 @@ class Bowling
     def score
         # return the current score
         i = 0
-        while !gameCompleted do
+        while @rolls[i] && i<=19 do
             #spare
             if @rolls[i] + @rolls[i+1] == 10
                 @totalScore += sparePoints i
@@ -40,7 +40,7 @@ class Bowling
             
             i += 2
             
-            if @rolls[i] == 19
+            if @rolls.size == 19
                 @gameCompleted = true
             end
         end
@@ -85,13 +85,13 @@ class Bowling
         end
 end
     
-    bowling = Bowling.new()
-    bowling.roll(10)
-    bowling.roll(8)
-    bowling.roll(1)
-    bowling.roll(10)
-    bowling.roll(10)
+#    bowling = Bowling.new()
+#    bowling.roll(1)
+#    bowling.roll(8)
+#    bowling.roll(5)
+#    bowling.roll(10)
 #    bowling.score
+#    puts bowling.totalScore
 #    bowling.rolls.each do |x|
 #    puts x
 #end
