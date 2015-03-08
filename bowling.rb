@@ -54,10 +54,20 @@ class Frame
 		return 0 
 	end
 
+	def e_dos_ultimos(posicao)
+		res=0
+		if (@numero_da_frame==posicao or @numero_da_frame==posicao-1)
+		then 
+			if(@lance1!=nil)then res=1 end
+		end
+		return res
+	end
+
 	def total()
 		res =0
-		if (@lance1!= nil and @lance2!= nil) then res= @lance1+@lance2 end
-		if (@lance1!= nil) then res= @lance1 end
+		i=0
+		if (@lance1!= nil and @lance2!= nil and i==0) then res+= (@lance1+@lance2);i=1 end
+		if (@lance1!= nil and i==0) then res+= @lance1;i=1 end
 		return res
 	end
 end
@@ -73,7 +83,7 @@ class Bowling
 
 	def roll(pins)
 		i=0 
-		if (@total_frames<=10)
+		if (@total_frames<12)
 		then
 			#frame com o primeiro elemento 10
 			if ((@lista_frame[@total_frames])!=nil and (@lista_frame[@total_frames]).lance1==10 and i==0)
@@ -124,24 +134,52 @@ end
 				#strike			
 				if (frame.is_strike() ==1 and i==0)
 				then 
-					total +=frame.total()
+					p "ola1"
+
+					if (lista_frame[posicao+1]!=nil and lista_frame[posicao+2]!=nil) 
+					then total += (frame.total() + (lista_frame[posicao+1]).total() + (lista_frame[posicao+2]).total())
+					else total +=frame.total()
+					end 
+
 					p total
+					posicao+=1
 					i=1
 				end
 				#spare 
 				if (frame.is_spare() ==1 and i==0) 
 				then 
-					total += frame.total()
+					p "ola2"
+
+					if (lista_frame[posicao+1]!=nil) 
+					then total += (frame.total() + (lista_frame[posicao+1]).total() )
+					else total +=frame.total()
+					end 
+
 					p total
 					i=1
+					posicao+=1
+
 				end
 
 				#normal
 				if (frame.is_jogada_normal() ==1 and i==0)
 				then 
+					p "ola3"
 					total +=frame.total()
 					p total
 					i=1
+					posicao+=1
+
+				end
+				#ultimos
+				if (frame.e_dos_ultimos(@lista_frame.size) ==1 and i==0)
+				then 
+					p "ola3"
+					total +=frame.total()
+					p total
+					i=1
+					posicao+=1
+
 				end
 			end
 		end
@@ -154,18 +192,36 @@ end
 
 b = Bowling.new
 
+b.roll(1)
+b.roll(4)
+
+b.roll(4)
+b.roll(5)
+
+b.roll(6)
+b.roll(4)
+
+b.roll(5)
+b.roll(5)
+
+b.roll(10)
+
+b.roll(0)
+b.roll(1)
+
+b.roll(7)
+b.roll(3)
+
+b.roll(6)
+b.roll(4)
+
 b.roll(10)
 
 b.roll(2)
-b.roll(3)
+b.roll(8)
 
-b.roll(5)
-b.roll(5)
+b.roll(6)
 
-b.roll(2)
-b.roll(3)
-
-b.roll(3)
-b.roll(3)
 
 p b.score
+p 1+4+ 4+5+ 6+4 + 5+5+ 10+ 1+ 7+3 +6+4+ 10 +2+8+    6
