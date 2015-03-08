@@ -90,11 +90,11 @@ class Bowling
         @totalScore += strike(i)
       else
         # Found Spare
-        if (@frames[i].rolls[0].pins + @frames[i].rolls[1].pins == 10)
+        if (sumAllRollsInFrame(i) == 10)
           @totalScore += spare(i)
         else
           # Normal Pontuation
-          @totalScore += @frames[i].rolls[0].pins + @frames[i].rolls[1].pins
+          @totalScore += sumAllRollsInFrame(i)
         end
       end
     end
@@ -176,17 +176,17 @@ class Roll
   end
 end
 
-game = Bowling.new
-20.times {game.roll(1)}
-game.score
-game.printFrames
-
-game = Bowling.new
-22.times {game.roll(5)}
-game.score
-game.printFrames
-
-game = Bowling.new
-12.times {game.roll(10)}
-game.score
-game.printFrames
+# game = Bowling.new
+# 20.times {game.roll(6)} # Bad Example to test.
+# game.score
+# game.printFrames
+#
+# game = Bowling.new
+# 22.times {game.roll(5)}
+# game.score
+# game.printFrames
+#
+# game = Bowling.new
+# 12.times {game.roll(10)}
+# game.score
+# game.printFrames
