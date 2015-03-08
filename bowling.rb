@@ -7,6 +7,7 @@ class Frame
 	def initialize(frame)
 		@lance1
 		@lance2
+		@total
 		@numero_da_frame=frame
 		@estado=1 # 1-aberto   0-fechado
 	end 
@@ -21,6 +22,43 @@ class Frame
 
 	def ainda_Aberta (lance)
 		return estado
+	end
+
+	def is_strike ()
+		if (@lance1!=nil)
+			if @lance1== 10
+			then return 1
+			else return 0
+			end
+		end
+	end
+
+	def is_spare()
+		if(@lance1!=nil and @lance2!=nil)
+		then
+			if @lance1+@lance2 == 10
+			then return 1
+			else return 0
+			end
+		end
+		return 0
+	end
+
+	def is_jogada_normal()
+		if(@lance1!=nil and @lance2!=nil)
+			if @lance1+@lance2 < 10
+			then return 1
+			else return 0
+			end
+		end
+		return 0 
+	end
+
+	def total()
+		res =0
+		if (@lance1!= nil and @lance2!= nil) then res= @lance1+@lance2 end
+		if (@lance1!= nil) then res= @lance1 end
+		return res
 	end
 end
 
@@ -77,6 +115,37 @@ class Bowling
 end
 
 	def score
+		total=0
+		posicao=0
+		@lista_frame.each do |frame|
+			i=0
+			if (frame!=nil)
+			then
+				#strike			
+				if (frame.is_strike() ==1 and i==0)
+				then 
+					total +=frame.total()
+					p total
+					i=1
+				end
+				#spare 
+				if (frame.is_spare() ==1 and i==0) 
+				then 
+					total += frame.total()
+					p total
+					i=1
+				end
+
+				#normal
+				if (frame.is_jogada_normal() ==1 and i==0)
+				then 
+					total +=frame.total()
+					p total
+					i=1
+				end
+			end
+		end
+		return total
 	end
 
 end
@@ -99,4 +168,4 @@ b.roll(3)
 b.roll(3)
 b.roll(3)
 
-p b.lista_frame
+p b.score
