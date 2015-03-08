@@ -160,7 +160,7 @@ RSpec.describe Bowling do
 			b.roll 1; b.roll 1;
 			b.roll 1; b.roll 1;
 			b.roll 1; b.roll 1;
-		    expect(b.game).to eq [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+		    expect(b.score).to eq 20
 		end 
     end
 
