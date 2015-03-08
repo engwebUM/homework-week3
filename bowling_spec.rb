@@ -73,5 +73,21 @@ RSpec.describe Bowling do
 			b.roll (5)
 			expect(b.score).to eq 150
 		end
+
+		 it 'zeros ' do
+			b = Bowling.new
+			b.roll(0); b.roll(0)
+			b.roll (0); b.roll(0)
+			b.roll(0); b.roll(0)
+			b.roll (0); b.roll(0)
+			b.roll(0); b.roll(0)
+			b.roll (0); b.roll(0)
+			b.roll(0); b.roll(0)
+			b.roll (0); b.roll(0)
+			b.roll(0); b.roll(0)
+			b.roll (0); b.roll(0)
+			b.roll(0); b.roll(0)
+			expect(b.score).to eq 0
+		end
   end
 end
