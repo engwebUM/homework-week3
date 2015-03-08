@@ -8,13 +8,14 @@ class Bowling
 
   # Roll the desired number of pins
   def roll(pins)
+
     case @position
     when 0..8
       framePlay(pins)
     when 9
       lastFramePlay(pins)
     else
-      puts "Game is already over"
+      return "Game is already over" # Used for RSpec tests
     end
   end
 
@@ -40,20 +41,22 @@ class Bowling
     if (@frames[@position].rolls[0].pins.nil?)
       @frames[@position].rolls[0].pins = pins
       if (pins == 10)
+        # Add one Roll to the last frame(Cause: Strike)
         @frames[@position].addExtraRoll
       end
       # Second Roll Play in Last Frame
     elsif (@frames[@position].rolls[1].pins.nil?)
         @frames[@position].rolls[1].pins = pins
         if (@frames[@position].rolls[0].pins + pins == 10 && (@frames[@position].rolls[0].pins != 10))
+          # Add one Roll to the last frame(Cause: Spare)
           @frames[@position].addExtraRoll
         else
           if (@frames[@position].rolls[0].pins + pins < 10 )
             @position = @position + 1
           end
         end
+        # Third Roll Play in Last Frame (Only when exists)
       else
-        # Third Roll Play in Last Frame
         if ((@frames[9].rolls[0].pins + @frames[9].rolls[1].pins >= 10))
           @frames[@position].rolls[2].pins = pins
           @position = @position + 1
@@ -67,11 +70,11 @@ class Bowling
     for i in 0 ... @frames.size
       # Found Strike
       if (@frames[i].rolls[0].pins == 10)
-        strike(i)
+        @totalScore += strike(i)
       else
         # Found Spare
         if (@frames[i].rolls[0].pins + @frames[i].rolls[1].pins == 10)
-          spare(i)
+          @totalScore += spare(i)
         else
           # Normal Pontuation
             @totalScore += @frames[i].rolls[0].pins + @frames[i].rolls[1].pins
@@ -85,21 +88,21 @@ class Bowling
   # Return Strike value
   def strike(i)
     if(i == 9)
-      sumLastFrame(i)
+      return (sumAllRollsInFrame(i))
     else
       # Search for the next 2 valid rolls
       if (@frames[i+1].rolls[0].pins == 10)
         # If the next frame exist Strike
         ## Verify if the next frame is the last frame (We can Have two consecutive Stikes or Pins down, in the same frame )
         if (i+1 == 9)
-          @totalScore += @frames[i].rolls[0].pins + @frames[i+1].rolls[0].pins + @frames[i+1].rolls[1].pins
+         return (@frames[i].rolls[0].pins + @frames[i+1].rolls[0].pins + @frames[i+1].rolls[1].pins)
         else
         ## If not the last frame we can add the next 2 Rolls(ex: Strike+Strike or Strike+PinsDown) from the 2 next Frames
-          @totalScore += @frames[i].rolls[0].pins + @frames[i+1].rolls[0].pins + @frames[i+2].rolls[0].pins
+          return (@frames[i].rolls[0].pins + @frames[i+1].rolls[0].pins + @frames[i+2].rolls[0].pins)
         end
       else
         # If the next frame doesn't exist Strike
-        @totalScore += @frames[i].rolls[0].pins + @frames[i+1].rolls[0].pins + @frames[i+1].rolls[1].pins
+        return (@frames[i].rolls[0].pins + @frames[i+1].rolls[0].pins + @frames[i+1].rolls[1].pins)
       end
     end
   end
@@ -107,19 +110,21 @@ class Bowling
   # Return Spare value
   def spare(i)
     if(i == 9)
-      sumLastFrame(i)
+      return (sumAllRollsInFrame(i))
     else
-      @totalScore += @frames[i].rolls[0].pins + @frames[i].rolls[1].pins + @frames[i+1].rolls[0].pins
+      return (@frames[i].rolls[0].pins + @frames[i].rolls[1].pins + @frames[i+1].rolls[0].pins)
     end
   end
 
   # Sum all the rolls in the last frame
-  def sumLastFrame(i)
+  def sumAllRollsInFrame(i)
+    sumAux = 0
     @frames[i].rolls.each do |rollAux|
       if !(rollAux.pins.nil?)
-        @totalScore += rollAux.pins
+        sumAux += rollAux.pins
       end
     end
+    return (sumAux)
   end
 
   #Print the Frames Scores
@@ -143,7 +148,7 @@ end
 
 class LastFrame < Frame
   def addExtraRoll
-    @rolls.push(Roll.new) # Add extra roll
+    @rolls.push(Roll.new) # Add extra roll when needed
   end
 end
 
@@ -156,16 +161,15 @@ end
 
 game = Bowling.new
 20.times {game.roll(1)}
-game.printFrames
 game.score
-
+game.printFrames
 
 game = Bowling.new
 21.times {game.roll(5)}
-game.printFrames
 game.score
+game.printFrames
 
 game = Bowling.new
-12.times {game.roll(10)}
-game.printFrames
+13.times {game.roll(10)}
 game.score
+game.printFrames
