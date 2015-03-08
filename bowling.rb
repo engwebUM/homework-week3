@@ -102,7 +102,6 @@ class Bowling
     else
       score=@frames[position]+@frames[position+1]
     end
-    puts score
     return score
   end
         
@@ -110,31 +109,4 @@ class Bowling
 end
 
 
-b=Bowling.new
 
-=begin
-b.roll(10)
-b.roll(7)
-b.roll(3)
-b.roll(7)
-b.roll(2)
-b.roll(9)
-b.roll(1)
-b.roll(10)
-b.roll(10)
-b.roll(10)
-b.roll(2)
-b.roll(3)
-b.roll(6)
-b.roll(4)
-b.roll(7)
-b.roll(3)
-b.roll(3)
-=end
-
-#puts b.frames[0]
-#puts b.frames[1]
-#puts b.frames[2]
-
-
-puts b.score
