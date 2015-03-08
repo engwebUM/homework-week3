@@ -111,7 +111,7 @@ end
        for current_iteration_number in 1..10 do  
         bowling.roll(10)
       end
-      expect(bowling.score).to eq 270
+      expect(bowling.score).to eq 270 # 10 perfect rolls without bonus balls
     end
 
 
@@ -120,7 +120,7 @@ end
        for current_iteration_number in 1..12 do  
         bowling.roll(10)
       end
-     expect(bowling.score).to eq 300
+     expect(bowling.score).to eq 300 #perfect game
     end
   end
 end
