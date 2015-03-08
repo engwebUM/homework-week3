@@ -1,39 +1,25 @@
 class Bowling
 
   def initialize
-    @frames    = Array.new(9) {Frame.new}
+    @frames = Array.new(9) {Frame.new}
     @frames.push(LastFrame.new)
-    @position   = 0
+    @position = 0
   end
 
   # Roll the desired number of pins
   def roll(pins)
-    # First Play in Last Frame
-    if (@position == 9 && @frames[@position].rolls[0].pins.nil?)
-      @frames[@position].rolls[0].pins = pins
-      if (pins == 10)
-        @frames[@position].addExtraRoll
-      end
-      # Second Play in Last Frame
-    elsif (@position == 9 && @frames[@position].rolls[1].pins.nil?)
-        @frames[@position].rolls[1].pins = pins
-        if (@frames[@position].rolls[0].pins + pins == 10 && (@frames[@position].rolls[0].pins != 10))
-          @frames[@position].addExtraRoll
-        else
-          if (@frames[@position].rolls[0].pins + pins < 10 )
-            @position = @position + 1
-          end
-        end
-      else
-        # Third Play in Last Frame
-        if (@position == 9 && (@frames[9].rolls[0].pins + @frames[9].rolls[1].pins >= 10))
-          @frames[@position].rolls[2].pins = pins
-          @position = @position + 1
-        end
+    case @position
+    when 0..8
+      framePlay(pins)
+    when 9
+      lastFramePlay(pins)
+    else
+      puts "Game is already over"
     end
+  end
 
-    # Game play for the first 9 Frames
-    if (@position < 9)
+  # Game play for the first 9 Frames
+  def framePlay(pins)
       # First Roll play
       if (@frames[@position].rolls[0].pins.nil?)
         @frames[@position].rolls[0].pins = pins
@@ -46,6 +32,32 @@ class Bowling
           @frames[@position].rolls[1].pins = pins
           @position = @position + 1
       end
+  end
+
+  # Game play for last Frame
+  def lastFramePlay(pins)
+    # First Roll Play in Last Frame
+    if (@frames[@position].rolls[0].pins.nil?)
+      @frames[@position].rolls[0].pins = pins
+      if (pins == 10)
+        @frames[@position].addExtraRoll
+      end
+      # Second Roll Play in Last Frame
+    elsif (@frames[@position].rolls[1].pins.nil?)
+        @frames[@position].rolls[1].pins = pins
+        if (@frames[@position].rolls[0].pins + pins == 10 && (@frames[@position].rolls[0].pins != 10))
+          @frames[@position].addExtraRoll
+        else
+          if (@frames[@position].rolls[0].pins + pins < 10 )
+            @position = @position + 1
+          end
+        end
+      else
+        # Third Roll Play in Last Frame
+        if ((@frames[9].rolls[0].pins + @frames[9].rolls[1].pins >= 10))
+          @frames[@position].rolls[2].pins = pins
+          @position = @position + 1
+        end
     end
   end
 
@@ -72,14 +84,8 @@ class Bowling
 
   # Return Strike value
   def strike(i)
-    # Verify if is the last Frame
     if(i == 9)
-      # For each in last position: Assure the 3 Consecutive Strikes or less...
-      @frames[i].rolls.each do |rollAux|
-        if !(rollAux.pins.nil?)
-          @totalScore += rollAux.pins
-        end
-      end
+      sumLastFrame(i)
     else
       # Search for the next 2 valid rolls
       if (@frames[i+1].rolls[0].pins == 10)
@@ -100,15 +106,19 @@ class Bowling
 
   # Return Spare value
   def spare(i)
-    # Verify if is the last Frame
     if(i == 9)
-      @frames[i].rolls.each do |rollAux|
-        if !(rollAux.pins.nil?)
-          @totalScore += rollAux.pins
-        end
-      end
+      sumLastFrame(i)
     else
       @totalScore += @frames[i].rolls[0].pins + @frames[i].rolls[1].pins + @frames[i+1].rolls[0].pins
+    end
+  end
+
+  # Sum all the rolls in the last frame
+  def sumLastFrame(i)
+    @frames[i].rolls.each do |rollAux|
+      if !(rollAux.pins.nil?)
+        @totalScore += rollAux.pins
+      end
     end
   end
 
@@ -145,32 +155,17 @@ class Roll
 end
 
 game = Bowling.new
-
-21.times {game.roll(5)}
-# game.roll(5)
-# game.roll(5)
-#
-# game.roll(5)
-# game.roll(5)
-#
-# game.roll(5)
-# game.roll(5)
-#
-# game.roll(5)
-# game.roll(5)
-#
-# game.roll(5)
-# game.roll(5)
-#
-# game.roll(10)
-# game.roll(10)
-#
-# game.roll(5)
-# game.roll(5)
-# game.roll(10)
-#
-#
-# game.roll(10)
-
-game.score
+20.times {game.roll(1)}
 game.printFrames
+game.score
+
+
+game = Bowling.new
+21.times {game.roll(5)}
+game.printFrames
+game.score
+
+game = Bowling.new
+12.times {game.roll(10)}
+game.printFrames
+game.score
