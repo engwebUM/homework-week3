@@ -2,8 +2,7 @@ require_relative './bowling'
 require 'rspec'
 
 RSpec.describe Bowling do
-  context '#upper and lower bounds - pins' do
-
+  context '#roll' do
     it 'verify roll with more than 10 pins' do
       expect {
       b = Bowling.new
@@ -32,44 +31,6 @@ RSpec.describe Bowling do
       expect(output).to eq 0
     end
 
-  end
-
-  context '#max and min possible points' do
-    it 'verify maximum points possible' do
-      b = Bowling.new
-
-      for i in 0..11
-        b.roll 10
-      end
-
-      output=b.score
-      expect(output).to eq 300
-    end
-
-    it 'verify when all frames hit 5 pins' do
-      b = Bowling.new
-
-      for i in 0..20
-        b.roll 5
-      end
-
-      output=b.score
-      expect(output).to eq 150
-    end
-
-    it 'verify minimum points possible' do
-      b = Bowling.new
-
-      for i in 0..19
-        b.roll 0
-      end
-
-      output=b.score
-      expect(output).to eq 0
-    end
-  end
-
-  context '#frames' do
     it 'verify when frames are higher than 10' do
       expect {
       b = Bowling.new
@@ -111,9 +72,7 @@ RSpec.describe Bowling do
       output=b.score
       expect(output).to eq 150
     end
-  end
 
-  context '#tenth frame variations' do
     it 'verify when tenth frame contains strike can play extra frame' do
       b = Bowling.new
 
@@ -154,125 +113,7 @@ RSpec.describe Bowling do
       b.roll 9  #extra/bonus frame
       }.to raise_error
     end
-  end
 
-  context '#rolls variations' do
-    it 'verify one simple roll' do
-      b = Bowling.new
-
-      b.roll 8
-
-      output=b.score
-      expect(output).to eq 8
-    end
-
-    it 'verify invalid number of pins for second roll' do
-      expect {
-      b = Bowling.new
-
-      b.roll 8
-      b.roll 3
-
-      }.to raise_error
-    end
-
-    it 'verify valid number of pins for second roll' do
-      b = Bowling.new
-
-      b.roll 8
-      b.roll 1
-
-      output=b.score
-      expect(output).to eq 9
-    end
-
-    it 'verify pins.jpg test' do
-      b = Bowling.new
-
-      b.roll 1; b.roll 4
-      b.roll 4; b.roll 5
-      b.roll 6; b.roll 4
-      b.roll 5; b.roll 5
-      b.roll 10
-      b.roll 0; b.roll 1
-      b.roll 7; b.roll 3
-      b.roll 6; b.roll 4
-      b.roll 10
-      b.roll 2; b.roll 8; b.roll 6
-
-      output=b.score
-      expect(output).to eq 133
-    end
-  end
-  context '#extra points' do
-    it 'verify extra points for a spare' do
-      b = Bowling.new
-
-      b.roll 8
-      b.roll 2
-      b.roll 3
-
-      output=b.score
-      expect(output).to eq 16
-    end
-
-    it 'verify extra points for a strike' do
-      b = Bowling.new
-
-      b.roll 10
-      b.roll 3
-      b.roll 5
-
-      output=b.score
-      expect(output).to eq 26
-    end
-
-    it 'verify extra points for a strike when next frame contains a strike' do
-      b = Bowling.new
-
-      b.roll 10
-      b.roll 10
-      b.roll 5
-      b.roll 2
-
-      output=b.score
-      expect(output).to eq 49
-    end
-
-    it 'verify extra points for a strike when next frame does not contains score' do
-      b = Bowling.new
-
-      b.roll 10
-      b.roll 10
-      b.roll 5
-      #b.roll 2
-
-      output=b.score
-      expect(output).to eq 45
-    end
-
-    #when happens a strike for ninth frame than calculation is based on bonus frame
-    #when tenth frame contains a strike
-    it 'verify extra points for a strike on ninth frame' do
-      b = Bowling.new
-
-      b.roll 1; b.roll 4
-      b.roll 4; b.roll 5
-      b.roll 6; b.roll 4
-      b.roll 5; b.roll 5
-      b.roll 10
-      b.roll 0; b.roll 1
-      b.roll 7; b.roll 3
-      b.roll 6; b.roll 4
-      b.roll 10
-      b.roll 10 #10
-      b.roll 8
-
-      output=b.score
-      expect(output).to eq 143
-    end
-  end
-  context '#extra balls' do
     it 'verify case with strike in the tenth frame and 2 extra balls' do
       b = Bowling.new
 
@@ -349,6 +190,156 @@ RSpec.describe Bowling do
       b.roll 6; b.roll 3
 
       }.to raise_error
+    end
+  end
+
+  context '#score' do
+    it 'verify maximum points possible' do
+      b = Bowling.new
+
+      for i in 0..11
+        b.roll 10
+      end
+
+      output=b.score
+      expect(output).to eq 300
+    end
+
+    it 'verify when all frames hit 5 pins' do
+      b = Bowling.new
+
+      for i in 0..20
+        b.roll 5
+      end
+
+      output=b.score
+      expect(output).to eq 150
+    end
+
+    it 'verify minimum points possible' do
+      b = Bowling.new
+
+      for i in 0..19
+        b.roll 0
+      end
+
+      output=b.score
+      expect(output).to eq 0
+    end
+
+    it 'verify one simple roll' do
+      b = Bowling.new
+
+      b.roll 8
+
+      output=b.score
+      expect(output).to eq 8
+    end
+
+    it 'verify invalid number of pins for second roll' do
+      expect {
+      b = Bowling.new
+
+      b.roll 8
+      b.roll 3
+
+      }.to raise_error
+    end
+
+    it 'verify valid number of pins for second roll' do
+      b = Bowling.new
+
+      b.roll 8
+      b.roll 1
+
+      output=b.score
+      expect(output).to eq 9
+    end
+
+    it 'verify pins.jpg test' do
+      b = Bowling.new
+
+      b.roll 1; b.roll 4
+      b.roll 4; b.roll 5
+      b.roll 6; b.roll 4
+      b.roll 5; b.roll 5
+      b.roll 10
+      b.roll 0; b.roll 1
+      b.roll 7; b.roll 3
+      b.roll 6; b.roll 4
+      b.roll 10
+      b.roll 2; b.roll 8; b.roll 6
+
+      output=b.score
+      expect(output).to eq 133
+    end
+
+
+    it 'verify extra points for a spare' do
+      b = Bowling.new
+
+      b.roll 8
+      b.roll 2
+      b.roll 3
+
+      output=b.score
+      expect(output).to eq 16
+    end
+
+    it 'verify extra points for a strike' do
+      b = Bowling.new
+
+      b.roll 10
+      b.roll 3
+      b.roll 5
+
+      output=b.score
+      expect(output).to eq 26
+    end
+
+    it 'verify extra points for a strike when next frame contains a strike' do
+      b = Bowling.new
+
+      b.roll 10
+      b.roll 10
+      b.roll 5
+      b.roll 2
+
+      output=b.score
+      expect(output).to eq 49
+    end
+
+    it 'verify extra points for a strike when next frame does not contains score' do
+      b = Bowling.new
+
+      b.roll 10
+      b.roll 10
+      b.roll 5
+      #b.roll 2
+
+      output=b.score
+      expect(output).to eq 45
+    end
+
+    #when happens a strike for ninth frame than calculation is based on bonus frame
+    #when tenth frame contains a strike
+    it 'verify extra points for a strike on ninth frame' do
+      b = Bowling.new
+
+      b.roll 1; b.roll 4
+      b.roll 4; b.roll 5
+      b.roll 6; b.roll 4
+      b.roll 5; b.roll 5
+      b.roll 10
+      b.roll 0; b.roll 1
+      b.roll 7; b.roll 3
+      b.roll 6; b.roll 4
+      b.roll 10
+      b.roll 10 #10
+      b.roll 8
+
+      output=b.score
+      expect(output).to eq 143
     end
   end
 end
