@@ -90,5 +90,31 @@ RSpec.describe Bowling do
 
       expect(bowling.score).to eq 133
     end
+
+    it 'returns correct score after multiple games with edge cases' do
+      bowling1, bowling2, bowling3 = Bowling.new, Bowling.new, Bowling.new
+      bowling4, bowling5, bowling6 = Bowling.new, Bowling.new, Bowling.new
+      bowling7, bowling8, bowling9 = Bowling.new, Bowling.new, Bowling.new
+
+      roll_balls(bowling1, [6, 4, 6, 4, 6, 4, 6, 4, 6, 4, 6, 4, 6, 4, 6, 4, 6, 4, 6, 4, 6])
+      roll_balls(bowling2, [0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0])
+      roll_balls(bowling3, [10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0])
+      roll_balls(bowling4, [10, 5, 5, 10, 5, 5, 10, 5, 5, 10, 5, 5, 10, 5, 5, 10])
+      roll_balls(bowling5, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 1, 0])
+      roll_balls(bowling6, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 1, 0])
+      roll_balls(bowling7, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 10])
+      roll_balls(bowling8, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, 10, 10, 10])
+      roll_balls(bowling9, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 10, 10])
+
+      expect(bowling1.score).to eq 160
+      expect(bowling2.score).to eq 100
+      expect(bowling3.score).to eq 110
+      expect(bowling4.score).to eq 200
+      expect(bowling5.score).to eq 11
+      expect(bowling6.score).to eq 12
+      expect(bowling7.score).to eq 30
+      expect(bowling8.score).to eq 50
+      expect(bowling9.score).to eq 60
+    end
   end
 end
