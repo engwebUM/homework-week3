@@ -1,9 +1,8 @@
 class Bowling
-  attr_reader :pins_standing, :rolls
+  attr_reader :rolls
 
   def initialize
     @rolls = Array.new(21)
-    @pins_standing = 10
   end
 
   def roll(pins)
@@ -11,15 +10,8 @@ class Bowling
     raise "impossible play" if pins < 0 || pins > pins_standing
 
     rolls[playing_roll] = pins
-    if playing_roll < 18
-      if playing_roll.odd? && pins == 10
-        rolls[playing_roll] = 0
-      else
-        playing_roll.even? ? @pins_standing = 10 : @pins_standing -= pins
-      end
-    else  # tenth frame
-      rolls[20] = 0 if playing_roll > 19 && !(strike?(9) || spare?(9))
-      pins == pins_standing ? @pins_standing = 10 : @pins_standing -= pins
+    if strike_on_regular_frame? || neither_strike_nor_spare_on_last_frame?
+      rolls[playing_roll] = 0   # then next ball is set from nil to 0
     end
   end
 
@@ -68,15 +60,36 @@ class Bowling
     rolls.find_index(nil) == nil
   end
 
+  def neither_strike_nor_spare_on_last_frame?
+    (playing_roll > 19) && !(strike?(9) || spare?(9))
+  end
+
+  def pins_standing
+    if playing_roll <= 18
+      playing_roll.even? ? pins = 10 : pins = 10 - rolls[playing_roll-1]
+    else  # tenth frame
+      if spare? (9) # 10 pins on 3rd ball if tenth frame was a spare
+        pins = 10
+      else # 2nd and (eventual) 3rd balls both follow this rule in other occasions
+        rolls[playing_roll-1] == 10 ? pins = 10 : pins = 10 - rolls[playing_roll-1]
+      end
+    end
+    pins
+  end
+
   def playing_roll
     rolls.find_index(nil).to_i
   end
 
   def spare? (frame)
-    rolls[2*frame].to_i + rolls[2*frame+1].to_i == 10
+    !strike?(frame) && ( rolls[2*frame].to_i + rolls[2*frame+1].to_i == 10 )
   end
 
   def strike? (frame)
     rolls[2*frame].to_i == 10
+  end
+
+  def strike_on_regular_frame?
+    (playing_roll < 18) && strike?(playing_roll/2) && (!game_over?)
   end
 end
