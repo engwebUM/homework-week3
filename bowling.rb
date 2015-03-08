@@ -1,22 +1,78 @@
-class Bowling
+#preserved invariant list
+# 3) Não se podem jogar mais do que 12 frames
+# 4) Strike na decima frame dá direito a 12 lançamentos
+# 5) Spare na decima dá direito a 11 jogadas
 
-	attr_accessor :rolls
-
-	# Initialized array to storage rolls
-	def initialize 
-		@rolls = []
+ class Bowling
+	 attr_accessor :rolls
+	 # Initialized array to storage rolls
+	 def initialize 
+		 @rolls = []
+	 end
+	
+	# # size/2 dá o frame onde está livre
+	# # size/2*2 dá primeiro ligar do frame que está livre
+	# # @rolls.length - 1o ligar livre
+	def roll (pins)
+		size = @rolls.length
+		frame = (size)/2
+		# ainda nao chegamos ao fim dos 10 frames
+		if frame < 10
+			# se a 1a posição lire é igual à 1a posição do 1o frame que está livre
+			if ((size/2)*2) == size
+				if pins == 10
+					@rolls.push pins
+					@rolls.push 0
+				elsif pins >= 0 && pins <= 9
+					@rolls.push pins
+				else
+					raise ArgumentError, 'ERROR: **** Incorrect number of pins. ****'
+				end
+			elsif (pins + @rolls[size/2*2]) >= 0 && (pins + @rolls[size/2*2]) <= 10 && pins >= 0 && pins <= 10
+					@rolls.push pins
+			else
+					raise ArgumentError, 'ERROR: **** Incorrect number of pins. ****'
+			end
+		elsif frame == 10 && size == 20
+			if @rolls[18] == 10 || @rolls[18] + @rolls[19] == 10
+				if pins == 10
+					@rolls.push pins
+					@rolls.push 0
+				elsif pins >= 0 && pins <= 9
+					@rolls.push pins
+				else
+					raise ArgumentError, 'ERROR: **** Incorrect number of pins. ****'
+				end
+			else
+				raise ArgumentError, 'ERROR: **** Incorrect play. ****'
+			end
+		elsif frame == 10 && size == 21
+			if @rolls[18] == 10
+				if pins == 10
+					@rolls.push pins
+					@rolls.push 0
+				elsif pins >= 0 && pins <= 9
+					@rolls.push pins
+				else
+				raise ArgumentError, 'ERROR: **** Incorrect number of pins. ****'
+				end
+			else
+				raise ArgumentError, 'ERROR: **** Incorrect play. ****'
+			end
+		elsif frame == 11 && @rolls[18] == 10 && @rolls[20] == 10 
+			if pins == 10
+				@rolls.push pins
+				@rolls.push 0
+			elsif pins >= 0 && pins <= 9
+				@rolls.push pins
+			else
+				raise ArgumentError, 'ERROR: **** Incorrect number of pins. ****'
+			end
+		else
+			raise ArgumentError, 'ERROR: **** No more plays. Game is Over. ****'
+		end	
 	end
 	
-	# add roll to rolls 
-	def roll(pins)
-		if pins == 10
-			@rolls.push pins
-			@rolls.push 0
-		else
-			@rolls.push pins
-		end
-	end
-
 	# Score - return the score on 'pontos' variable
 	# Can return the score at any time, in the middle of a frame or uncomplete game
 	def score

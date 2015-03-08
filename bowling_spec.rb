@@ -64,6 +64,315 @@ RSpec.describe Bowling do
 			expect(@jogo.rolls).to eq [10,0,10,0,10,0,10,0,10,0,10,0,10,0,10,0,10,0,10,0,10,0,10,0]
 		end
 		
+		it 'ERRO: STRIKE após 1 roll' do
+			@jogo.roll(3)
+			expect{@jogo.roll(10)}.to raise_error (ArgumentError)
+		end
+		
+		it 'ERRO: 1 roll com mais de 10 pinos' do
+			expect{@jogo.roll(12)}.to raise_error (ArgumentError)
+		end
+		
+		it 'ERRO: 1 roll com mais de 10 pinos - com 1 roll antes' do
+			@jogo.roll(7)
+			expect{@jogo.roll(12)}.to raise_error (ArgumentError)
+		end
+		
+		it 'ERRO: 1 roll com mais de 10 pinos - com 2 roll antes' do
+			@jogo.roll(7)
+			@jogo.roll(1)
+			expect{@jogo.roll(12)}.to raise_error (ArgumentError)
+		end
+		
+		it 'ERRO: 2 roll com soma maior que 10 pinos' do
+			@jogo.roll(7)
+			expect{@jogo.roll(4)}.to raise_error (ArgumentError)
+		end
+		
+		it 'ERRO: roll com menos de 0 pinos' do
+			expect{@jogo.roll(-1)}.to raise_error (ArgumentError)
+		end
+		
+		it 'ERRO: 2o roll com menos de 0 pinos' do
+			@jogo.roll(7)
+			expect{@jogo.roll(-1)}.to raise_error (ArgumentError)
+		end
+		
+		it 'TESTE: jogo completo sempre 2,3' do
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)			
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)			
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			expect(@jogo.rolls).to eq [2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3]
+		end
+		
+		it 'ERRO: jogo completo sempre 2,3 e 2 a mais no fim' do
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)			
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)			
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			expect{@jogo.roll(2)}.to raise_error (ArgumentError)
+		end
+		
+		it 'TESTE: jogo completo sempre 2,3 e a acabar em spare + 1 ' do
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)			
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)			
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(8)			
+			@jogo.roll(1)
+			expect(@jogo.rolls).to eq [2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,8,1]
+			# expect{@jogo.roll(2)}.to raise_error (ArgumentError)
+		end
+		
+		it 'TESTE: jogo completo sempre 2,3 e a acabar em spare + 10 ' do
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)			
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)			
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(8)			
+			@jogo.roll(10)
+			expect(@jogo.rolls).to eq [2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,8,10,0]
+			# expect{@jogo.roll(2)}.to raise_error (ArgumentError)
+		end
+		
+		it 'ERRO: jogo completo sempre 2,3 e a acabar em spare + 1 + 1 ' do
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)			
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)			
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(8)			
+			@jogo.roll(1)
+			expect{@jogo.roll(1)}.to raise_error (ArgumentError)
+		end
+		
+		it 'ERRO: jogo completo sempre 2,3 e a acabar em spare + 10 + 1 ' do
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)			
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)			
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(8)			
+			@jogo.roll(10)
+			expect{@jogo.roll(1)}.to raise_error (ArgumentError)
+		end	
+		
+		it 'TESTE: jogo completo sempre 2,3 e a acabar em strike + 1 + 1 ' do
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)			
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)			
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(10)			
+			@jogo.roll(1)			
+			@jogo.roll(1)
+			expect(@jogo.rolls).to eq [2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,10,0,1,1]
+		end
+		
+		it 'TESTE: jogo completo sempre 2,3 e a acabar em strike + 10 + 1 ' do
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)			
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)			
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(10)			
+			@jogo.roll(10)			
+			@jogo.roll(1)
+			expect(@jogo.rolls).to eq [2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,10,0,10,0,1]
+		end
+		
+		it 'TESTE: jogo completo sempre 2,3 e a acabar em strike + 1 + 10 ' do
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)			
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)			
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(10)			
+			@jogo.roll(1)			
+			@jogo.roll(10)
+			expect(@jogo.rolls).to eq [2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,10,0,1,10,0]
+		end
+		
+		it 'TESTE: jogo completo sempre 2,3 e a acabar em strike + 10 + 10 ' do
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)			
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)			
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(10)			
+			@jogo.roll(10)			
+			@jogo.roll(10)
+			expect(@jogo.rolls).to eq [2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,2,3,10,0,10,0,10,0]
+		end
+		
+		it 'ERRO: jogo completo sempre 2,3 e a acabar em strike + 1 + 1 + 1 ' do
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)			
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)			
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(10)			
+			@jogo.roll(1)			
+			@jogo.roll(1)
+			expect{@jogo.roll(1)}.to raise_error (ArgumentError)
+		end
+		
 	end
 	
 	
@@ -154,25 +463,25 @@ RSpec.describe Bowling do
 		end
 	
 		it 'TESTE: jogo completo sempre 2 e 3' do
-			@jogo.roll(2)
+			@jogo.roll(2)			
 			@jogo.roll(3)
-			@jogo.roll(2)
+			@jogo.roll(2)			
 			@jogo.roll(3)			
-			@jogo.roll(2)
+			@jogo.roll(2)			
 			@jogo.roll(3)
-			@jogo.roll(2)
+			@jogo.roll(2)			
 			@jogo.roll(3)			
-			@jogo.roll(2)
+			@jogo.roll(2)			
 			@jogo.roll(3)
-			@jogo.roll(2)
+			@jogo.roll(2)			
 			@jogo.roll(3)
-			@jogo.roll(2)
+			@jogo.roll(2)			
 			@jogo.roll(3)
-			@jogo.roll(2)
+			@jogo.roll(2)			
 			@jogo.roll(3)
-			@jogo.roll(2)
+			@jogo.roll(2)			
 			@jogo.roll(3)
-			@jogo.roll(2)
+			@jogo.roll(2)			
 			@jogo.roll(3)
 			expect(@jogo.score).to eq 50
 		end
