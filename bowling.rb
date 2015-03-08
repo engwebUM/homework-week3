@@ -29,11 +29,6 @@ class Bowling
     points
   end
 
-  def print_score
-    puts "Score: " + score.to_s
-    puts "Rolls: " + rolls.to_s
-  end
-
   private
 
   def bonus_spare(frame)
