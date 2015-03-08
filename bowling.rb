@@ -59,7 +59,7 @@ class Bowling
 		end
 		pontos
 	end
-
+ 
 	# return true if it's a strike
 	def strike? index
 		@rolls[index] == 10

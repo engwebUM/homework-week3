@@ -1,6 +1,6 @@
 require_relative './bowling'
 require 'rspec'
-
+ 
 RSpec.describe Bowling do
 	before do
 		@jogo = Bowling.new
