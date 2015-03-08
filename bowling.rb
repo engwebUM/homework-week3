@@ -3,7 +3,7 @@ class Bowling
   def initialize
     @frames = Array.new(9) {Frame.new}
     @frames.push(LastFrame.new)
-    @position = 0
+    @position = 0 # Current Frame Position in the Game
   end
 
   # Roll the desired number of pins
@@ -181,7 +181,7 @@ class Roll
 end
 
 # Buggy Examples
-puts "\n== Crash Avoidance Examples =="
+puts "\n == Crash Avoidance Examples =="
 game = Bowling.new
 20.times {game.roll(6)}
 game.score
@@ -198,7 +198,7 @@ game.score
 game.printFrames
 
 # Good Examples
-puts "\n == Good Examples == "
+puts "\n == Good Examples =="
 game = Bowling.new
 21.times {game.roll(5)}
 game.score
