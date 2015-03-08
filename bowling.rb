@@ -142,7 +142,6 @@ end
 						end
 					else total +=frame.total()
 					end 
-					p total
 					posicao+=1
 					i=1
 				end
@@ -154,8 +153,6 @@ end
 					then total += (frame.total() + (lista_frame[posicao+1]).lance1)
 					else total +=frame.total()
 					end 
-
-					p total
 					i=1
 					posicao+=1
 
@@ -165,7 +162,6 @@ end
 				if (frame.is_jogada_normal() ==1 and i==0)
 				then 
 					total +=frame.total()
-					p total
 					i=1
 					posicao+=1
 
