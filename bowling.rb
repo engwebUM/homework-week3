@@ -3,7 +3,6 @@ class Bowling
 
   def initialize
     @rolls = Array.new(21)
-    @playing_roll = 0
     @pins_standing = 10
   end
 
