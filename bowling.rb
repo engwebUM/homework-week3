@@ -1,9 +1,5 @@
 class Bowling
 
-	
-
-
-
   def initialize
     @frames=Array.new(21,0)
     @actual_frame=1
@@ -11,16 +7,6 @@ class Bowling
     @actual_pos=0
   end
 
-  def showFrames
-    frame_counter=1
-    while frame_counter<=@actual_frame do
-      position=(frame_counter*2)-2
-      p @frames[position]
-      p @frames[position+1]
-      frame_counter+=1
-
-    end
-  end
 
 
 
@@ -28,7 +14,7 @@ class Bowling
     # roll the desired number of pins
     #pins must be between 0 and 10
     if pins<0 or pins>10 then
-    	puts "Invalid number of pins"
+      	raise 'The pins must be between 0 and 10.'
     else
       if @actual_roll==1 and pins==10
         #strike
@@ -43,11 +29,13 @@ class Bowling
         @actual_frame+=1
         @actual_roll=1
       elsif @actual_roll==2 and @frames[@actual_pos-1]+pins!=10 
+        #normal roll, second try
         @frames[@actual_pos]=pins
         @actual_pos+=1
         @actual_frame+=1
         @actual_roll=1
       else
+        #normal roll, first try
         @frames[@actual_pos]=pins
         @actual_pos+=1
         @actual_roll=2
@@ -67,6 +55,7 @@ class Bowling
     end
 
 
+  #Is the frame a spare?
   def spare?(first_n_frame)
     pos=(first_n_frame*2)-2
   	if (@frames[pos+1])=='/' then
@@ -76,6 +65,7 @@ class Bowling
   	end
   end
 
+  #Is the frame a strike
   def strike?(first_n_frame)
     pos=(first_n_frame*2)-2
   	if @frames[pos+1]=='X' then
@@ -104,7 +94,7 @@ class Bowling
     end
     return score
   end
-        
+
 
 end
 
