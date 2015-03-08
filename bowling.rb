@@ -26,9 +26,12 @@ class Bowling
         if (@frames[9].rolls.length == 2 && (@frames[9].rolls[0] != 10))
           if (sumAllRollsInFrame(@position) + pins > 10)
            return "Exceeds the maximum pins available in the Last frame" # Used for RSpec tests
+         else
+           lastFramePlay(pins)
          end
+       elsif(@frames[9].rolls.length == 3)
+         lastFramePlay(pins)
        end
-       lastFramePlay(pins)
      else
         return "Game is already over" # Used for RSpec tests
       end
@@ -112,14 +115,15 @@ class Bowling
         # If the next frame exist Strike
         ## Verify if the next frame is the last frame (We can Have two consecutive Stikes or Pins down, in the same frame )
         if (i+1 == 9)
-         return (@frames[i].rolls[0].pins + @frames[i+1].rolls[0].pins + @frames[i+1].rolls[1].pins)
+          # Can't use "sumAllRollsInFrame" because sometimes the last frame can have 3 Rolls, and we only want to sum 2
+          return (@frames[i].rolls[0].pins + @frames[i+1].rolls[0].pins + @frames[i+1].rolls[1].pins)
         else
         ## If not the last frame we can add the next 2 Rolls(ex: Strike+Strike or Strike+PinsDown) from the 2 next Frames
-          return (@frames[i].rolls[0].pins + @frames[i+1].rolls[0].pins + @frames[i+2].rolls[0].pins)
+          return (@frames[i].rolls[0].pins + @frames[i+1].rolls[0].pins + @frames[i+2].rolls[0].pins.to_i) # ".to_i" is needed to avoid nil in certain situations
         end
       else
         # If the next frame doesn't exist Strike
-        return (@frames[i].rolls[0].pins + @frames[i+1].rolls[0].pins + @frames[i+1].rolls[1].pins)
+        return (@frames[i].rolls[0].pins + sumAllRollsInFrame(i+1))
       end
     end
   end
@@ -129,7 +133,7 @@ class Bowling
     if(i == 9)
       return (sumAllRollsInFrame(i))
     else
-      return (@frames[i].rolls[0].pins + @frames[i].rolls[1].pins + @frames[i+1].rolls[0].pins)
+      return (sumAllRollsInFrame(i) + @frames[i+1].rolls[0].pins)
     end
   end
 
@@ -176,17 +180,31 @@ class Roll
   end
 end
 
-# game = Bowling.new
-# 20.times {game.roll(6)} # Bad Example to test.
-# game.score
-# game.printFrames
-#
-# game = Bowling.new
-# 22.times {game.roll(5)}
-# game.score
-# game.printFrames
-#
-# game = Bowling.new
-# 12.times {game.roll(10)}
-# game.score
-# game.printFrames
+# Buggy Examples
+puts "\n== Crash Avoidance Examples =="
+game = Bowling.new
+20.times {game.roll(6)}
+game.score
+game.printFrames
+
+game = Bowling.new
+5.times {game.roll(10)}
+game.score
+game.printFrames
+
+game = Bowling.new
+9.times {game.roll(10)}
+game.score
+game.printFrames
+
+# Good Examples
+puts "\n == Good Examples == "
+game = Bowling.new
+21.times {game.roll(5)}
+game.score
+game.printFrames
+
+game = Bowling.new
+12.times {game.roll(10)}
+game.score
+game.printFrames
