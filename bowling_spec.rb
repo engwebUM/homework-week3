@@ -373,6 +373,31 @@ RSpec.describe Bowling do
 			expect{@jogo.roll(1)}.to raise_error (ArgumentError)
 		end
 		
+		it 'ERRO: jogo completo sempre 2,3 e a acabar em strike + 1 + 10 + 1 ' do
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)			
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)			
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(2)			
+			@jogo.roll(3)
+			@jogo.roll(10)			
+			@jogo.roll(1)			
+			@jogo.roll(10)
+			expect{@jogo.roll(1)}.to raise_error (ArgumentError)
+		end
+		
 	end
 	
 	
