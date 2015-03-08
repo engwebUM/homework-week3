@@ -4,7 +4,6 @@ class Bowling
     @frames    = Array.new(9) {Frame.new}
     @frames.push(LastFrame.new)
     @position   = 0
-    @totalScore = 0
   end
 
   # Roll the desired number of pins
@@ -33,13 +32,14 @@ class Bowling
         end
     end
 
-    # Game play for the firs 9 Frames
+    # Game play for the first 9 Frames
     if (@position < 9)
       # First Roll play
       if (@frames[@position].rolls[0].pins.nil?)
         @frames[@position].rolls[0].pins = pins
         if (pins == 10)
-          @frames[@position].rolls[1].pins = "0" # If strikes, the second roll is 0 because player wont play it!
+          # If Strikes, the second roll is 0 because player wont play it!
+          @frames[@position].rolls[1].pins = "0"
           @position = @position + 1
         end
       else
@@ -67,6 +67,7 @@ class Bowling
       end
     end
     puts "\nFinal Score: " + @totalScore.to_s
+    return @totalScore
   end
 
   # Return Strike value
@@ -107,7 +108,7 @@ class Bowling
         end
       end
     else
-      @totalScore = @frames[i].rolls[0].pins + @frames[i].rolls[1].pins + @frames[i+1].rolls[0].pins
+      @totalScore += @frames[i].rolls[0].pins + @frames[i].rolls[1].pins + @frames[i+1].rolls[0].pins
     end
   end
 
@@ -145,30 +146,31 @@ end
 
 game = Bowling.new
 
-game.roll(5)
-game.roll(5)
-
-game.roll(10)
-game.roll(10)
-
-game.roll(10)
-game.roll(10)
-
-game.roll(10)
-game.roll(10)
-
-game.roll(5)
-game.roll(1)
-
-game.roll(5)
-game.roll(2)
-
-game.roll(5)
-game.roll(5)
-game.roll(10)
-
-
-game.roll(10)
+21.times {game.roll(5)}
+# game.roll(5)
+# game.roll(5)
+#
+# game.roll(5)
+# game.roll(5)
+#
+# game.roll(5)
+# game.roll(5)
+#
+# game.roll(5)
+# game.roll(5)
+#
+# game.roll(5)
+# game.roll(5)
+#
+# game.roll(10)
+# game.roll(10)
+#
+# game.roll(5)
+# game.roll(5)
+# game.roll(10)
+#
+#
+# game.roll(10)
 
 game.score
 game.printFrames
