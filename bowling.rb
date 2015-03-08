@@ -5,9 +5,9 @@
 		 @rolls = []
 	 end
 	
-	# # size/2 dá o frame onde está livre
-	# # size/2*2 dá primeiro ligar do frame que está livre
-	# # @rolls.length - 1o ligar livre
+	# # size/2 return what frame is not complete
+	# # size/2*2 return first place on the fst frame not complete
+	# # @rolls.length - == fst free place
 	def roll (pins)
 		size = @rolls.length
 		frame = (size)/2
