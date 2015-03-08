@@ -273,7 +273,7 @@ RSpec.describe Bowling do
     end
   end
   context '#extra balls' do
-    it 'verify case with strike and 2 extra balls' do
+    it 'verify case with strike in the tenth frame and 2 extra balls' do
       b = Bowling.new
 
       b.roll 1; b.roll 4
@@ -292,7 +292,7 @@ RSpec.describe Bowling do
       expect(output).to eq 145
     end
 
-    it 'verify case with spare and 1 extra balls' do
+    it 'verify case with spare in the tenth frame and 1 extra ball' do
       b = Bowling.new
 
       b.roll 1; b.roll 4
@@ -311,7 +311,7 @@ RSpec.describe Bowling do
       expect(output).to eq 134
     end
 
-    it 'verify case with strike and 3 extra balls' do
+    it 'verify case with strike in the tenth frame and 3 extra balls' do
 
       expect {
       b = Bowling.new
@@ -331,7 +331,7 @@ RSpec.describe Bowling do
       }.to raise_error
     end
 
-    it 'verify case with spare and 2 extra balls' do
+    it 'verify case with spare in the tenth frame and 2 extra balls' do
 
       expect {
       b = Bowling.new
