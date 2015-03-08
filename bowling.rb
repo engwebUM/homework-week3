@@ -129,18 +129,19 @@ end
 		posicao=0
 		@lista_frame.each do |frame|
 			i=0
-			if (frame!=nil)
+			if (frame!=nil and posicao <10)
 			then
 				#strike			
 				if (frame.is_strike() ==1 and i==0)
 				then 
-					p "ola1"
-
-					if (lista_frame[posicao+1]!=nil and lista_frame[posicao+2]!=nil) 
-					then total += (frame.total() + (lista_frame[posicao+1]).total() + (lista_frame[posicao+2]).total())
+					if (lista_frame[posicao+1].is_strike) 
+					then 
+						if lista_frame[posicao+1].is_strike ==1
+						then total += (frame.total() + (lista_frame[posicao+1]).lance1 + (lista_frame[posicao+2]).lance1)
+						else total += (frame.total() + (lista_frame[posicao+1]).lance1 + (lista_frame[posicao+1]).lance2)
+						end
 					else total +=frame.total()
 					end 
-
 					p total
 					posicao+=1
 					i=1
@@ -148,10 +149,9 @@ end
 				#spare 
 				if (frame.is_spare() ==1 and i==0) 
 				then 
-					p "ola2"
 
 					if (lista_frame[posicao+1]!=nil) 
-					then total += (frame.total() + (lista_frame[posicao+1]).total() )
+					then total += (frame.total() + (lista_frame[posicao+1]).lance1)
 					else total +=frame.total()
 					end 
 
@@ -164,7 +164,6 @@ end
 				#normal
 				if (frame.is_jogada_normal() ==1 and i==0)
 				then 
-					p "ola3"
 					total +=frame.total()
 					p total
 					i=1
@@ -174,7 +173,6 @@ end
 				#ultimos
 				if (frame.e_dos_ultimos(@lista_frame.size) ==1 and i==0)
 				then 
-					p "ola3"
 					total +=frame.total()
 					p total
 					i=1
@@ -187,41 +185,3 @@ end
 	end
 
 end
-
-
-
-b = Bowling.new
-
-b.roll(1)
-b.roll(4)
-
-b.roll(4)
-b.roll(5)
-
-b.roll(6)
-b.roll(4)
-
-b.roll(5)
-b.roll(5)
-
-b.roll(10)
-
-b.roll(0)
-b.roll(1)
-
-b.roll(7)
-b.roll(3)
-
-b.roll(6)
-b.roll(4)
-
-b.roll(10)
-
-b.roll(2)
-b.roll(8)
-
-b.roll(6)
-
-
-p b.score
-p 1+4+ 4+5+ 6+4 + 5+5+ 10+ 1+ 7+3 +6+4+ 10 +2+8+    6
