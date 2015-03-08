@@ -1,8 +1,3 @@
-#preserved invariant list
-# 3) Não se podem jogar mais do que 12 frames
-# 4) Strike na decima frame dá direito a 12 lançamentos
-# 5) Spare na decima dá direito a 11 jogadas
-
  class Bowling
 	 attr_accessor :rolls
 	 # Initialized array to storage rolls
