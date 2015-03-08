@@ -2,10 +2,10 @@ require_relative './bowling'
 require 'rspec'
 
 RSpec.describe Bowling do
-
 	before do
 		@jogo = Bowling.new
 	end
+	
 	
 	context '#roll' do
 	
@@ -154,14 +154,6 @@ RSpec.describe Bowling do
 			expect(@jogo.score).to eq 17
 		end
 	
-		it 'TESTE: jogo completo sempre 10' do
-			@jogo.roll(10)
-			@jogo.roll(10)
-			@jogo.roll(1)
-			
-			expect(@jogo.score).to eq 300
-		end
-  
 		it 'TESTE: jogo completo sempre 2 e 3' do
 			@jogo.roll(2)
 			@jogo.roll(3)
@@ -185,6 +177,14 @@ RSpec.describe Bowling do
 			@jogo.roll(3)
 			expect(@jogo.score).to eq 50
 		end
+	
+		it 'TESTE: 1 roll de 0 e um de 1 após 2 STRIKES seguidos' do
+			@jogo.roll(10)
+			@jogo.roll(10)
+			@jogo.roll(1)
+			@jogo.roll(0)
+			expect(@jogo.score).to eq 33
+		end
   
 		it 'TESTE: jogo completo sempre 10' do
 			@jogo.roll(10)
@@ -202,19 +202,7 @@ RSpec.describe Bowling do
 			expect(@jogo.score).to eq 300
 		end
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  	
 	end
-  
+ 
+ 
 end

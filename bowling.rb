@@ -50,7 +50,7 @@ class Bowling
 		pontos = 0
 		index = 0
 
-		while (index < 21 && @rolls[index]) do
+		while (index < 20 && @rolls[index]) do
 			if strike? index
 				pontos += pontosStrike (index)
 			elsif spare? index
@@ -82,15 +82,39 @@ class Bowling
 	end
 	
 	# return score to add, if Strike
+	# def pontosStrike index
+		# if @rolls[index + 3]
+			# 10 + @rolls[index + 2] + @rolls[index + 3]
+		# elsif @rolls[index + 2]
+			# 10 + @rolls[index + 2]
+		# else
+			# 10
+		# end
+	# end
 	def pontosStrike index
-		if @rolls[index + 3]
-			10 + @rolls[index + 2] + @rolls[index + 3]
-		elsif @rolls[index + 2]
-			10 + @rolls[index + 2]
-		else
+		if @rolls[index + 2]
+			if @rolls[index + 2] == 10
+				if @rolls[index + 4]
+					10 + 10 + @rolls[index + 4]
+				else
+					10 + 10
+				end
+			else
+				if @rolls[index + 3]
+					10 + @rolls[index + 2] + @rolls[index + 3]
+				else
+					10 + @rolls[index + 2]
+				end
+			end	
+		else 
 			10
 		end
 	end
+	
+	
+	
+	
+	
 	
 	# return score to add, if Spare
 	def pontosSpare index
