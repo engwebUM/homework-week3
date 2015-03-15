@@ -12,68 +12,61 @@ class Bowling
   def initialize
     @rolls=[]
     @i=0
-    @frame=1
+    @frame=0
     @score=0
+    @scoreframe=[]
   end
 
 
   def roll(pins)
-    # roll the desired number of pins
-    @rolls[i]=pins
-    @i=i+1
-end
-
-  def score
-    # return the current score
-    #i é indice que rolls que indica o numero a que o lançamento se refere,
-    # se o lançamento é o primeiro de uma frame e e um strike vamos considerar que passa na mesma um lançamento apesar de este ser inexistente
-    @i=0
-    @score=0
-    @frame=1
-    while @frame<10
+    if i%2==0
+      puts "-----------------------------------------"
       puts "Frame: "
       puts @frame
-
-      if @rolls[@i]==10 #strike
-     #   puts "Strike"
-        if @rolls[@i+2]==10
-          @score+=10+@rolls[@i+2]+@rolls[@i+4]
-        else
-          @score+=10+@rolls[@i+2]+@rolls[@i+3]
-        end
-
-        else if @rolls[@i]+@rolls[@i+1]==10 #spare
-        @score+=10+@rolls[@i+2]
-        else
-          @score+=@rolls[@i]+@rolls[@i+1]
-        end
-      end
-      @i+=2
-      @frame+=1
-      print "Score: "
-      print @score
     end
+    if not(pins<0 or pins>10)
+      puts "Roll "
+      puts pins
+      @rolls[@i]=pins
+      score
+      puts "Score: "
+      puts @score
+    else
+      puts "Number of pins invalid, it should be between 1 and 10. "
+      puts "Invalid frame! "
+      puts "Roll again"
+      if i%2==1
+        @i=@i-1
 
-    #Last frame score
-    puts "Frame: "
-    puts @frame
-    if  @frame=10
-      if @rolls[@i]==10 #strike
-        @score+=10+@rolls[@i+1]+@rolls[@i+2]
-      else if @rolls[@i]+@rolls[@i+1]==10 #spare
-             @score+=10+@rolls[@i+2]
-           else
-             @score+=@rolls[@i]+@rolls[@i+1]
-             end
       end
     end
-
-    @score
-    print "Score: "
-    print @score
   end
 
-  # Add code as needed
+  def score
+    if @rolls[@i-2]==10
+      if @rolls[@i-4]==10
+        @scoreframe[@frame-2]+=@rolls[@i]
+      end
+      @scoreframe[@frame-1]+=@rolls[@i]
+      @score=@scoreframe[@frame-1]
+    end
+    if @frame>0 and @i>2 and (@rolls[@i-2])+(@rolls[@i-1])==10
+      @scoreframe[@frame-1]=@scoreframe[@frame-1]+@rolls[@i]
+      @score=@scoreframe[@frame-1]
+    end
+    @score+=@rolls[@i]
+    @i+=1
+    if @i%2==0
+      if @frame>=1
+        @scoreframe[@frame-1]=@score
+      end
+
+      @frame=@frame+1
+
+
+    end
+  end
+
 end
 
 print "Tudo 0's"
