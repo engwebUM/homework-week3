@@ -1,70 +1,39 @@
-require_relative 'homework-week3/bowling'
+require_relative 'bowling'
 require 'rspec'
 
 RSpec.describe Bowling do
-  let(:game) { Bowling.new }
 
   context '#roll' do
+    it 'receives a roll' do
   end
+end
 
-  def apply_rolls(*rolls)
-    rolls.each do |roll|
-      game.roll(roll)
+ 
+context '#score' do
+
+    it '10 rolls with 2 whithout SPARES or STRIKES' do
+      bowling = Bowling.new
+      for current_iteration_number in 1..10 do  
+        bowling.roll(2)
+      end
+      expect(bowling.totalScore).to eq 20
     end
-  end
 
-  EXAMPLES = [
-    # Basic examples
-    {
-      rolls: [],
-      score: 0
-    },
-    {
-      rolls: [0],
-      score: 0
-    },
-    {
-      rolls: [0] * 10,
-      score: 0
-    },
-    {
-      rolls: [1],
-      score: 1
-    },
-
-    # Wikipedia examples
-    # http://en.wikipedia.org/wiki/Ten-pin_bowling#Scoring
-    {
-      rolls: [10, 3, 6],
-      score: 28
-    },
-    {
-      rolls: [10, 10, 9, 0],
-      score: 57
-    },
-    {
-      rolls: [10, 10, 10, 0, 9],
-      score: 78
-    },
-    {
-      rolls: [10, 10, 4, 2],
-      score: 46
-    },
-    {
-      rolls: [7, 3, 4, 2],
-      score: 20
-    },
-    {
-      rolls: [10] * 12,
-      score: 300
-    }
-  ]
-
-  EXAMPLES.each do |example|
-    it "works for #{example[:rolls]}" do
-      apply_rolls(*example[:rolls])
-
-      expect(game.score).to eq example[:score]
+    it "20 rolls with 0" do
+      bowling = Bowling.new
+      for current_iteration_number in 1..20 do  
+        bowling.roll(0)
+      end
+      expect(bowling.totalScore).to eq 0
     end
+
+    it "10 rolls with 5" do
+      bowling = Bowling.new
+      for current_iteration_number in 1..10 do  
+        bowling.roll(5)
+      end
+      expect(bowling.totalScore).to eq 70
+    end
+
   end
 end
